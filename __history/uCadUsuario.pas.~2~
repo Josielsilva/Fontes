@@ -1,0 +1,69 @@
+unit uCadUsuario;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs,uDtmPrincipal, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  Data.DB, Vcl.DBCtrls, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.StdCtrls,uFuncoesCryptografia,
+  Vcl.ExtCtrls;
+
+type
+  TfmCadastroUsuario = class(TForm)
+    Panel3: TPanel;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    edtLogin: TEdit;
+    edtnome: TEdit;
+    edtsenha: TEdit;
+    Label4: TLabel;
+    cbTipo: TDBComboBox;
+    fdqLogin: TFDQuery;
+    dsLogin: TDataSource;
+    Button1: TButton;
+    procedure Button1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  fmCadastroUsuario: TfmCadastroUsuario;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfmCadastroUsuario.Button1Click(Sender: TObject);
+begin
+ if (edtLogin.Text <> '') and (edtsenha.Text <> '') then
+ begin
+  with fdqLogin do
+  begin
+   SQL.Add('insert into login ');
+   sql.Add('(       ');
+   SQL.Add('Login,  ');
+   SQL.Add('Senha,  ');
+   Sql.Add('Nome,'   );
+   SQL.Add('Tipo)'   );
+   Sql.Add('values ' );
+   sql.Add(':pLogin' );
+   sql.Add('pSenha'  );
+   sql.Add('pNome'   );
+   sql.Add('pTipo'   );
+   ParamByName('pLogin').AsString := edtLogin.Text;
+   ParamByName('pSenha').AsString := Criptografia(edtsenha.Text);
+   ParamByName('pNome').AsString := edtnome.Text;
+   ParamByName('pTipo').AsString := cbTipo.Items[cbTipo.ItemIndex];
+   ExecSQL;
+  end;
+ end;
+end;
+
+
+
+end.

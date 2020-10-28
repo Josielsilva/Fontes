@@ -1,0 +1,47 @@
+unit uReceita;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UFrmPadrao, Data.DB, Vcl.StdCtrls,
+  ZAbstractRODataset, ZAbstractDataset, ZDataset, Vcl.Mask, Vcl.Grids,
+  Vcl.DBGrids, Vcl.ComCtrls, Vcl.DBCtrls, Vcl.Buttons, Vcl.ExtCtrls, RxToolEdit,
+  RxCurrEdit,uDtmPrincipal;
+
+type
+  TfrmReceita = class(TfrmPadrao)
+    cbDespesa: TComboBox;
+    LabeledEdit1: TLabeledEdit;
+    edtValorUnitario: TCurrencyEdit;
+    Label11: TLabel;
+    edtDataPrevisao: TDateEdit;
+    Label9: TLabel;
+    lkpCliente: TDBLookupComboBox;
+    Label1: TLabel;
+    zqTipoDespesa: TZQuery;
+    dsTipoDespesa: TDataSource;
+    Label2: TLabel;
+    zqPrincipalRec_Cod: TIntegerField;
+    zqPrincipalRec_Tipo: TIntegerField;
+    zqPrincipalRec_Descricao: TWideStringField;
+    zqPrincipalRec_dataRecebimento: TDateTimeField;
+    zqPrincipalRec_Valor: TFloatField;
+    zqPrincipalRec_Status: TWideStringField;
+    zqTipoDespesaTIPODR_Cod: TIntegerField;
+    zqTipoDespesaTIPODR_Tipo: TIntegerField;
+    zqTipoDespesaTIPODR_Desc: TWideStringField;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmReceita: TfrmReceita;
+
+implementation
+
+{$R *.dfm}
+
+end.

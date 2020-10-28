@@ -1,0 +1,120 @@
+unit uReceita;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UFrmPadrao, Data.DB, Vcl.StdCtrls,
+  ZDataset,
+  Vcl.ComCtrls, Vcl.DBCtrls, Vcl.Buttons, Vcl.ExtCtrls, RxToolEdit,
+  RxCurrEdit,uDtmPrincipal,uReceitas,uEnun,uUsuarioLogado, ZAbstractRODataset,
+  ZAbstractDataset, Vcl.Mask, Vcl.Grids, Vcl.DBGrids;
+
+type
+  TfrmReceita = class(TfrmPadrao)
+    cbDespesa: TComboBox;
+    edtDescricao: TLabeledEdit;
+    edtValor: TCurrencyEdit;
+    Label11: TLabel;
+    edtDataPrevisao: TDateEdit;
+    Label9: TLabel;
+    lkpReceita: TDBLookupComboBox;
+    Label1: TLabel;
+    zqTipoDespesa: TZQuery;
+    dsTipoDespesa: TDataSource;
+    Label2: TLabel;
+    zqPrincipalRec_Cod: TIntegerField;
+    zqPrincipalRec_Tipo: TIntegerField;
+    zqPrincipalRec_Descricao: TWideStringField;
+    zqPrincipalRec_dataRecebimento: TDateTimeField;
+    zqPrincipalRec_Valor: TFloatField;
+    zqPrincipalRec_Status: TWideStringField;
+    zqTipoDespesaTIPODR_Cod: TIntegerField;
+    zqTipoDespesaTIPODR_Tipo: TWideStringField;
+    zqTipoDespesaTIPODR_Desc: TWideStringField;
+    edtCodigo: TLabeledEdit;
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure btnAlterarClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    vReceita:TReceita;
+    vUsuarioLogado : TUsuarioLogado;
+    function Apagar:Boolean; override;
+    function Gravar(EstadoDoCadastro:TEstadoCadastro):Boolean; override;
+  end;
+
+var
+  frmReceita: TfrmReceita;
+
+implementation
+
+{$R *.dfm}
+
+function TfrmReceita.Apagar: Boolean;
+begin
+  if vReceita.Selecionar(zqPrincipal.FieldByName('Rec_Cod').AsInteger) then begin
+     Result:= vReceita.Apagar;
+  end;
+end;
+
+procedure TfrmReceita.btnAlterarClick(Sender: TObject);
+begin
+  inherited;
+      if vReceita.Selecionar(zqPrincipal.FieldByName('REC_Cod').AsInteger) then begin
+      edtCodigo.Text       :=IntToStr(vReceita.Codigo);
+      lkpReceita.keyValue  :=vReceita.Tipo;
+     edtDescricao.Text     :=vReceita.Descricao;
+
+  end
+  else begin
+    btnCancelar.Click;
+    Abort;
+  end;
+end;
+
+procedure TfrmReceita.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  inherited;
+    if Assigned(vReceita) then
+    FreeAndNil(vReceita);
+end;
+
+procedure TfrmReceita.FormCreate(Sender: TObject);
+begin
+  inherited;
+     vReceita := TReceita.Create(DtmPrincipal.ConexaoDB);
+  //vGrupo := TGrupo.Create(DtmPrincipal.ConexaoDB);
+
+   IndiceAtual :='REC_TIPO';
+end;
+
+procedure TfrmReceita.FormShow(Sender: TObject);
+begin
+  inherited;
+   zqPrincipal.Open;
+   zqTipoDespesa.Open;
+end;
+
+function TfrmReceita.Gravar(EstadoDoCadastro: TEstadoCadastro): Boolean;
+begin
+   if edtCodigo.Text<>EmptyStr then
+     vReceita.Codigo:=StrToInt(edtCodigo.Text)
+  else
+     vReceita.Codigo:=0;
+
+  vReceita.Tipo               :=lkpReceita.KeyValue;
+  vReceita.Descricao          :=edtDescricao.Text;
+  vReceita.DataVencimento     := edtDataPrevisao.date;
+  vReceita.valor              := StrToFloat(edtValor.text);
+
+  if (EstadoDoCadastro=ecInserir) then
+     Result:=vReceita.Inserir
+  else if (EstadoDoCadastro=ecAlterar) then
+     Result:=vReceita.Atualizar;
+end;
+
+end.

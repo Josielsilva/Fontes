@@ -1,0 +1,84 @@
+unit uDtmOrcamento;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, Datasnap.DBClient, Data.DB,
+  ZAbstractRODataset, ZAbstractDataset, ZDataset, RxMemDS;
+
+type
+  TDtmOrcamentos = class(TDataModule)
+    QryCliente: TZQuery;
+    QryProduto: TZQuery;
+    dtsProduto: TDataSource;
+    dtsCliente: TDataSource;
+    cdsItensOrcamento1: TClientDataSet;
+    dtsItensOrcamento: TDataSource;
+    QryProdutoProd_Cod: TIntegerField;
+    QryProdutoProd_Nome: TWideStringField;
+    QryProdutoprod_ValorUnit: TFloatField;
+    QryProdutoProd_Qtde: TIntegerField;
+    QryClienteCli_Cod: TIntegerField;
+    QryClienteCli_Nome: TWideStringField;
+    cdsItensOrcamento1OrcItens_prodId: TSmallintField;
+    cdsItensOrcamento1Prod_Nome: TStringField;
+    cdsItensOrcamento1OrcItens_Quantidade: TFloatField;
+    cdsItensOrcamento1OrcItens_ValorUnitario: TFloatField;
+    cdsItensOrcamento1OrcItens_TotalProduto2: TFloatField;
+    cdsItensOrcamento1OrcItens_TotalOrcamento: TAggregateField;
+    cdsItensOrcamento: TRxMemoryData;
+    cdsItensOrcamentoOrcItens_prodId: TIntegerField;
+    cdsItensOrcamentoProd_Nome: TStringField;
+    cdsItensOrcamentoOrcItens_Quantidade: TFloatField;
+    cdsItensOrcamentoOrcItens_ValorUnitario: TFloatField;
+    cdsItensOrcamentoOrcItens_TotalProduto: TFloatField;
+    cdsItensOrcamentoOrcItens_TotalOrcamento: TFloatField;
+    zqVeiculo: TZQuery;
+    dsVeiculo: TDataSource;
+    zqVeiculoveic_cod: TIntegerField;
+    zqVeiculoVeic_marca_Modelo: TWideStringField;
+    cdsItensOrcamentoOrcItens_operacao: TStringField;
+    cdsItensOrcamentoOrcItens_desc: TFloatField;
+    cdsItensOrcamentoOrcItens_Hora: TFloatField;
+    cdsItensOrcamentoOrcItens_Pintura: TFloatField;
+    QryVeiculo: TZQuery;
+    QryVeiculoVEIC_COD: TIntegerField;
+    QryVeiculoVEIC_MARCA_MODELO: TWideStringField;
+    procedure DataModuleCreate(Sender: TObject);
+    procedure DataModuleDestroy(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  DtmOrcamentos: TDtmOrcamentos;
+
+implementation
+
+{%CLASSGROUP 'Vcl.Controls.TControl'}
+
+{$R *.dfm}
+
+procedure TDtmOrcamentos.DataModuleCreate(Sender: TObject);
+begin
+
+cdsItensOrcamento.Active:= true;
+QryCliente.Open;
+QryProduto.Open;
+qryVeiculo.Open;
+
+end;
+
+procedure TDtmOrcamentos.DataModuleDestroy(Sender: TObject);
+begin
+  cdsItensOrcamento.Close;
+  QryCliente.Close;
+  QryProduto.Close;
+  qryVeiculo.Close;
+end;
+
+
+
+end.

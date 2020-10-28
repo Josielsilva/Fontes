@@ -1,0 +1,15 @@
+unit uEnun;
+
+interface
+
+type
+  TVeiculo = (Carro, Moto, Vans, Caminhao, Onibus, outros);
+
+  TEstadoCadastro = (ecInserir, ecAlterar, ecNenhum);
+
+  TAcaoExcluirEstoque = (aeeApagar, aeeAlterar);
+
+implementation
+
+end.
+

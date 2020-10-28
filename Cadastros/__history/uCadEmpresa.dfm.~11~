@@ -1,0 +1,410 @@
+inherited frmCadEmpresa: TfrmCadEmpresa
+  Caption = 'Cadastro de Empresa'
+  ClientHeight = 366
+  Position = poScreenCenter
+  ExplicitWidth = 753
+  ExplicitHeight = 405
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited Panel2: TPanel
+    Top = 325
+    TabOrder = 1
+    ExplicitTop = 325
+    inherited btnNavegador: TDBNavigator
+      Hints.Strings = ()
+    end
+  end
+  inherited Panel3: TPanel
+    Height = 325
+    TabOrder = 0
+    ExplicitHeight = 325
+    inherited pgcPadrao: TPageControl
+      Height = 325
+      ActivePage = TabSheet2
+      ExplicitHeight = 325
+      inherited TabSheet1: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 24
+        ExplicitWidth = 729
+        ExplicitHeight = 297
+        inherited dbgPadrao: TDBGrid
+          Height = 240
+        end
+      end
+      inherited TabSheet2: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 24
+        ExplicitWidth = 729
+        ExplicitHeight = 297
+        object Label2: TLabel
+          Left = 146
+          Top = 17
+          Width = 25
+          Height = 13
+          Caption = 'CNPJ'
+        end
+        object sbBuscaCep: TSpeedButton
+          Left = 116
+          Top = 116
+          Width = 17
+          Height = 21
+          Hint = 'Buscar cep'
+          Glyph.Data = {
+            5E060000424D5E06000000000000360400002800000017000000170000000100
+            08000000000028020000C40E0000C40E00000001000000000000000000000000
+            80000080000000808000800000008000800080800000C0C0C000C0DCC000F0CA
+            A6000020400000206000002080000020A0000020C0000020E000004000000040
+            20000040400000406000004080000040A0000040C0000040E000006000000060
+            20000060400000606000006080000060A0000060C0000060E000008000000080
+            20000080400000806000008080000080A0000080C0000080E00000A0000000A0
+            200000A0400000A0600000A0800000A0A00000A0C00000A0E00000C0000000C0
+            200000C0400000C0600000C0800000C0A00000C0C00000C0E00000E0000000E0
+            200000E0400000E0600000E0800000E0A00000E0C00000E0E000400000004000
+            20004000400040006000400080004000A0004000C0004000E000402000004020
+            20004020400040206000402080004020A0004020C0004020E000404000004040
+            20004040400040406000404080004040A0004040C0004040E000406000004060
+            20004060400040606000406080004060A0004060C0004060E000408000004080
+            20004080400040806000408080004080A0004080C0004080E00040A0000040A0
+            200040A0400040A0600040A0800040A0A00040A0C00040A0E00040C0000040C0
+            200040C0400040C0600040C0800040C0A00040C0C00040C0E00040E0000040E0
+            200040E0400040E0600040E0800040E0A00040E0C00040E0E000800000008000
+            20008000400080006000800080008000A0008000C0008000E000802000008020
+            20008020400080206000802080008020A0008020C0008020E000804000008040
+            20008040400080406000804080008040A0008040C0008040E000806000008060
+            20008060400080606000806080008060A0008060C0008060E000808000008080
+            20008080400080806000808080008080A0008080C0008080E00080A0000080A0
+            200080A0400080A0600080A0800080A0A00080A0C00080A0E00080C0000080C0
+            200080C0400080C0600080C0800080C0A00080C0C00080C0E00080E0000080E0
+            200080E0400080E0600080E0800080E0A00080E0C00080E0E000C0000000C000
+            2000C0004000C0006000C0008000C000A000C000C000C000E000C0200000C020
+            2000C0204000C0206000C0208000C020A000C020C000C020E000C0400000C040
+            2000C0404000C0406000C0408000C040A000C040C000C040E000C0600000C060
+            2000C0604000C0606000C0608000C060A000C060C000C060E000C0800000C080
+            2000C0804000C0806000C0808000C080A000C080C000C080E000C0A00000C0A0
+            2000C0A04000C0A06000C0A08000C0A0A000C0A0C000C0A0E000C0C00000C0C0
+            2000C0C04000C0C06000C0C08000C0C0A000F0FBFF00A4A0A000808080000000
+            FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00FFFFFFFFFFFF
+            FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF00FFFFFFFFFFFFFFFFFFFFFFFFFFFF
+            FFFFFFFFFFFFFFFFFF00FFFFFFFFFFFFFF08A5FFFFFFFFFFFFFFFFFFFFFFFFFF
+            FF00FFFFFFFFFFFFFFAE1DEEFFFFFFFFFFFFFFFFFFFFFFFFFF00FFFFFFFFFFFF
+            FFF62E54F6FFFFFFFFFFFFFFFFFFFFFFFF00FFFFFFFFFFFFFFFF652FA4FFFFFF
+            FFFFFFFFFFFFFFFFFF00FFFFFFFFFFFFFFFFAD371DEEFFFFFFFFFFFFFFFFFFFF
+            FF00FFFFFFFFFFFFFFFFF61D375CF6FFFFFFFFFFFFFFFFFFFF00FFFFFFFFFFFF
+            FFFFFF5C372FA4FFFFFFFFFFFFFFFFFFFF00FFFFFFFFFFFFFFFFFFF72F3726EE
+            FFFFFFFFFFFFFFFFFF00FFFFFFFFFFFFFFFFFFFF1D37376508FFFFFFFFFFFFFF
+            FF00FFFFFFFFFFFFFFFF085C0A373737A5FFFFFFFFFFFFFFFF00FFFFFFFFFFFF
+            FFFFAE2F2F37373F26EEFFFFFFFFFFFFFF00FFFFFFFFFFFFFFFF0826377F7F7F
+            3F65FFFFFFFFFFFFFF00FFFFFFFFFFFFFFFFFF1D373F3F2F6FBFFFFFFFFFFFFF
+            FF00FFFFFFFFFFFFFFFFFFA637373F375CFFFFFFFFFFFFFFFF00FFFFFFFFFFFF
+            FFFFFF0826373FFB26F7FFFFFFFFFFFFFF00FFFFFFFFFFFFFFFFFFFF1D373FFB
+            3F5CF6FFFFFFFFFFFF00FFFFFFFFFFFFFFFFFFFFAE373FFBFB2FA4FFFFFFFFFF
+            FF00FFFFFFFFFFFFFFFFFFFF08273FFBFBFB1507FFFFFFFFFF00FFFFFFFFFFFF
+            FFFFFFFFFF1E3FFBFBFB775CFFFFFFFFFF00FFFFFFFFFFFFFFFFFFFFFFAE272F
+            2F2F2FAFFFFFFFFFFF00FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+            FF00}
+          OnClick = sbBuscaCepClick
+        end
+        object Label5: TLabel
+          Left = 7
+          Top = 100
+          Width = 104
+          Height = 13
+          Caption = 'Busca cep autom'#225'tico'
+        end
+        object lblCep: TLabel
+          Left = 7
+          Top = 182
+          Width = 19
+          Height = 13
+          Caption = 'Cep'
+        end
+        object Label1: TLabel
+          Left = 222
+          Top = 182
+          Width = 63
+          Height = 13
+          Caption = 'Telefone fixo'
+        end
+        object Label3: TLabel
+          Left = 389
+          Top = 182
+          Width = 60
+          Height = 13
+          Caption = 'Telefone Cel'
+        end
+        object EdtCodigo: TLabeledEdit
+          Tag = 1
+          Left = 7
+          Top = 32
+          Width = 121
+          Height = 21
+          EditLabel.Width = 92
+          EditLabel.Height = 13
+          EditLabel.Caption = 'C'#243'digo da empresa'
+          TabOrder = 0
+        end
+        object edtRazao: TLabeledEdit
+          Left = 7
+          Top = 75
+          Width = 363
+          Height = 21
+          EditLabel.Width = 60
+          EditLabel.Height = 13
+          EditLabel.Caption = 'Raz'#227'o Social'
+          TabOrder = 2
+        end
+        object edtFantasia: TLabeledEdit
+          Left = 376
+          Top = 75
+          Width = 314
+          Height = 21
+          EditLabel.Width = 43
+          EditLabel.Height = 13
+          EditLabel.Caption = 'Fantiasia'
+          TabOrder = 3
+        end
+        object lblEndereco: TLabeledEdit
+          Left = 146
+          Top = 116
+          Width = 469
+          Height = 21
+          EditLabel.Width = 45
+          EditLabel.Height = 13
+          EditLabel.Caption = 'Endere'#231'o'
+          TabOrder = 5
+        end
+        object lblNumero: TLabeledEdit
+          Left = 621
+          Top = 116
+          Width = 69
+          Height = 21
+          EditLabel.Width = 12
+          EditLabel.Height = 13
+          EditLabel.Caption = 'N'#186
+          TabOrder = 6
+        end
+        object lblBairro: TLabeledEdit
+          Left = 7
+          Top = 155
+          Width = 313
+          Height = 21
+          EditLabel.Width = 28
+          EditLabel.Height = 13
+          EditLabel.Caption = 'Bairro'
+          TabOrder = 7
+        end
+        object lblCidade: TLabeledEdit
+          Left = 327
+          Top = 155
+          Width = 322
+          Height = 21
+          EditLabel.Width = 33
+          EditLabel.Height = 13
+          EditLabel.Caption = 'Cidade'
+          TabOrder = 8
+        end
+        object edtCEP: TMaskEdit
+          Left = 7
+          Top = 196
+          Width = 197
+          Height = 21
+          EditMask = '99999-999;1;_'
+          MaxLength = 9
+          TabOrder = 9
+          Text = '     -   '
+        end
+        object lblUF: TLabeledEdit
+          Left = 655
+          Top = 155
+          Width = 35
+          Height = 21
+          EditLabel.Width = 13
+          EditLabel.Height = 13
+          EditLabel.Caption = 'UF'
+          MaxLength = 2
+          TabOrder = 10
+        end
+        object edtTelefone: TMaskEdit
+          Left = 222
+          Top = 196
+          Width = 161
+          Height = 21
+          EditMask = '(99) 9999-9999;1;_'
+          MaxLength = 14
+          TabOrder = 11
+          Text = '(  )     -    '
+        end
+        object edtTelefoneCel: TMaskEdit
+          Left = 391
+          Top = 196
+          Width = 190
+          Height = 21
+          EditMask = '(99) 99999-9999;1;_'
+          MaxLength = 15
+          TabOrder = 12
+          Text = '(  )      -    '
+        end
+        object lblEmail: TLabeledEdit
+          Left = 7
+          Top = 246
+          Width = 350
+          Height = 21
+          EditLabel.Width = 28
+          EditLabel.Height = 13
+          EditLabel.Caption = 'E-Mail'
+          TabOrder = 13
+        end
+        object edtIe: TLabeledEdit
+          Left = 362
+          Top = 246
+          Width = 161
+          Height = 21
+          EditLabel.Width = 87
+          EditLabel.Height = 13
+          EditLabel.Caption = 'Inscri'#231#227'o estadual'
+          TabOrder = 14
+        end
+        object edtIM: TLabeledEdit
+          Left = 529
+          Top = 246
+          Width = 161
+          Height = 21
+          EditLabel.Width = 89
+          EditLabel.Height = 13
+          EditLabel.Caption = 'Inscri'#231#227'o municipal'
+          TabOrder = 15
+        end
+        object edtCNPJ: TMaskEdit
+          Left = 143
+          Top = 32
+          Width = 164
+          Height = 21
+          EditMask = '##.###.###/####-##'
+          MaxLength = 18
+          TabOrder = 1
+          Text = '  .   .   /    -  '
+        end
+        object edtBuscaCep: TMaskEdit
+          Left = 7
+          Top = 116
+          Width = 107
+          Height = 21
+          EditMask = '99999-999;1;_'
+          MaxLength = 9
+          TabOrder = 4
+          Text = '     -   '
+        end
+      end
+    end
+  end
+  inherited zqPrincipal: TZQuery
+    Connection = DtmPrincipal.ConexaoDB
+    SQL.Strings = (
+      'SELECT '
+      '       EMP_CNPJ'
+      '      ,EMP_RAZAOSOCIAL'
+      '      ,EMP_FANTASIA'
+      '      ,EMP_ENDERECO'
+      '      ,Emp_Numero'
+      '      ,Emp_Cep'
+      '      ,EMP_Bairro'
+      '      ,Emp_UF'
+      '      ,EMP_Cidade'
+      '      ,Emp_Telefone1'
+      '      ,Emp_Telefone2'
+      '      ,EMP_Email'
+      '  FROM Empresa')
+    object zqPrincipalEMP_CNPJ: TWideStringField
+      DisplayLabel = 'Cnpj'
+      FieldName = 'EMP_CNPJ'
+    end
+    object zqPrincipalEMP_RAZAOSOCIAL: TWideStringField
+      DisplayLabel = 'Raz'#227'o social'
+      FieldName = 'EMP_RAZAOSOCIAL'
+      Size = 100
+    end
+    object zqPrincipalEMP_FANTASIA: TWideStringField
+      DisplayLabel = 'Nome fantasia'
+      FieldName = 'EMP_FANTASIA'
+      Size = 50
+    end
+    object zqPrincipalEMP_ENDERECO: TWideStringField
+      DisplayLabel = 'Endere'#231'o'
+      FieldName = 'EMP_ENDERECO'
+      Size = 50
+    end
+    object zqPrincipalEmp_Numero: TIntegerField
+      DisplayLabel = 'N'#186
+      FieldName = 'Emp_Numero'
+    end
+    object zqPrincipalEmp_Cep: TWideStringField
+      DisplayLabel = 'Cep'
+      FieldName = 'Emp_Cep'
+      Size = 9
+    end
+    object zqPrincipalEMP_Bairro: TWideStringField
+      DisplayLabel = 'Bairro'
+      FieldName = 'EMP_Bairro'
+    end
+    object zqPrincipalEmp_UF: TWideStringField
+      DisplayLabel = 'UF'
+      FieldName = 'Emp_UF'
+      Size = 2
+    end
+    object zqPrincipalEMP_Cidade: TWideStringField
+      DisplayLabel = 'Cidade'
+      FieldName = 'EMP_Cidade'
+    end
+    object zqPrincipalEmp_Telefone1: TWideStringField
+      DisplayLabel = 'Tel. Fixo'
+      FieldName = 'Emp_Telefone1'
+      Size = 15
+    end
+    object zqPrincipalEmp_Telefone2: TWideStringField
+      DisplayLabel = 'Tel. Celular'
+      FieldName = 'Emp_Telefone2'
+      Size = 15
+    end
+    object zqPrincipalEMP_Email: TWideStringField
+      DisplayLabel = 'E-mail'
+      FieldName = 'EMP_Email'
+      Size = 50
+    end
+  end
+  object RESTClient1: TRESTClient
+    Accept = 'application/json;q=0.9,text/plain;q=0.9,text/html'
+    AcceptCharset = 'UTF-8'
+    BaseURL = 'http://viacep.com.br'
+    Params = <>
+    HandleRedirects = True
+    RaiseExceptionOn500 = False
+    Left = 352
+    Top = 32
+  end
+  object RESTRequest1: TRESTRequest
+    Accept = 'application/json;q=0.9,text/plain;q=0.9,text/html'
+    AcceptCharset = 'UTF-8'
+    Client = RESTClient1
+    Params = <
+      item
+        Kind = pkURLSEGMENT
+        name = 'cep'
+        Options = [poAutoCreated]
+      end
+      item
+        Kind = pkURLSEGMENT
+        name = 'formato'
+        Options = [poAutoCreated]
+      end>
+    Resource = 'ws/{cep}/{formato}'
+    Response = RESTResponse1
+    Timeout = 0
+    SynchronizedEvents = False
+    Left = 424
+    Top = 32
+  end
+  object RESTResponse1: TRESTResponse
+    Left = 496
+    Top = 31
+  end
+end

@@ -1,0 +1,430 @@
+unit uOrcamento;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UFrmPadrao, Data.DB, ZAbstractRODataset,
+  Vcl.StdCtrls, Vcl.DBGrids,
+  Vcl.ComCtrls, Vcl.DBCtrls, Vcl.Buttons, Vcl.ExtCtrls, RxCurrEdit,
+  RxToolEdit,uDtmPrincipal,uProOrcamento,uEnun,uRelProOrcamento,
+  ZAbstractDataset, ZDataset, Vcl.Mask, Vcl.Grids,uDtmOrcamento;
+
+type
+  TfrmOrcamento = class(TfrmPadrao)
+    Panel4: TPanel;
+    dbgOrcamento: TDBGrid;
+    zqPrincipalOrc_OrcId: TIntegerField;
+    zqPrincipalOrc_CodCli: TIntegerField;
+    zqPrincipalCli_Nome: TWideStringField;
+    zqPrincipalOrc_TotalOrcamento: TFloatField;
+    lkpVeiculo: TDBLookupComboBox;
+    Label10: TLabel;
+    zqPrincipalOrc_DataOrcamento: TDateTimeField;
+    edtCodigoOrcamento: TLabeledEdit;
+    lkpCliente: TLabeledEdit;
+    Label2: TLabel;
+    edtDataPrevisao: TDateEdit;
+    Label9: TLabel;
+    edtDataOrcamento: TDateEdit;
+    Panel5: TPanel;
+    lkpProduto: TLabeledEdit;
+    Label11: TLabel;
+    edtValorUnitario: TCurrencyEdit;
+    edtQtde: TCurrencyEdit;
+    Label5: TLabel;
+    edtDesconto: TCurrencyEdit;
+    Label4: TLabel;
+    Label6: TLabel;
+    edtTotalProduto: TCurrencyEdit;
+    btnAdicionarItem: TBitBtn;
+    btnApagarItem: TBitBtn;
+    EdtValorTotal: TCurrencyEdit;
+    Label7: TLabel;
+    mmOBS: TMemo;
+    zqPrincipalCli_Email: TWideStringField;
+    zqPrincipalCli_Telefone1: TWideStringField;
+    edtHorasServico: TCurrencyEdit;
+    Label12: TLabel;
+    cbOperacao: TComboBox;
+    Label13: TLabel;
+    cbTipoPeca: TComboBox;
+    Label14: TLabel;
+    Label15: TLabel;
+    edtHoraPintura: TCurrencyEdit;
+    cbFormaPagto: TComboBox;
+    Label8: TLabel;
+    cbStatus: TComboBox;
+    Label16: TLabel;
+    SpbProduto: TSpeedButton;
+    spbCliente: TSpeedButton;
+    procedure btnAdicionarItemClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure btnAlterarClick(Sender: TObject);
+    procedure btnApagarItemClick(Sender: TObject);
+    procedure btnCancelarClick(Sender: TObject);
+    procedure btnInserirClick(Sender: TObject);
+    procedure dbgOrcamentoDblClick(Sender: TObject);
+    procedure dbgOrcamentoKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure lkpProdutoExit(Sender: TObject);
+    procedure btnGravarClick(Sender: TObject);
+    procedure edtDescontoExit(Sender: TObject);
+    procedure SpbProdutoClick(Sender: TObject);
+    procedure spbClienteClick(Sender: TObject);
+    procedure edtDataPrevisaoExit(Sender: TObject);
+    procedure lkpVeiculoExit(Sender: TObject);
+    procedure lkpClienteExit(Sender: TObject);
+  private
+    DtmOrcamentos: TDtmOrcamentos;
+    vOrcamento: TOrcamento;
+    function Gravar(EstadoDoCadastro:TEstadoCadastro):boolean; override;
+    function Apagar:Boolean; override;
+    function TotalizarVenda: Double;
+    function TotalizarProduto(valorUnitario, Quantidade,Desconto: Double): Double;
+    procedure LimparComponenteItem;
+    procedure LimparCds;
+    procedure CarregarRegistroSelecionado;
+
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmOrcamento: TfrmOrcamento;
+
+implementation
+uses uConsultaProduto,uConsultaClliente;
+
+{$R *.dfm}
+
+function TfrmOrcamento.Apagar: Boolean;
+begin
+   if vOrcamento.Selecionar(zqPrincipal.FieldByName('Orc_OrcId').AsInteger, DtmOrcamentos.cdsItensOrcamento) then begin
+     Result:=vOrcamento.Apagar;
+  end;
+end;
+
+procedure TfrmOrcamento.btnAdicionarItemClick(Sender: TObject);
+begin
+  inherited;
+   if lkpProduto.Text=EmptyStr then begin
+     MessageDlg('Produto é um campo obrigatório' ,mtInformation,[mbOK],0);
+     lkpProduto.SetFocus;
+     abort;
+  end;
+
+  if edtValorUnitario.value<=0 then begin
+     MessageDlg('Valor Unitário não pode ser Zero' ,mtInformation,[mbOK],0);
+     edtValorUnitario.SetFocus;
+     abort;
+  end;
+
+  if edtQtde.value<=0 then begin
+     MessageDlg('Quantidade não pode ser Zero' ,mtInformation,[mbOK],0);
+     edtQtde.SetFocus;
+     abort;
+  end;
+
+  if DtmOrcamentos.cdsItensOrcamento.Locate('OrcItens_prodId', lkpProduto.Text, []) then begin
+     MessageDlg('Este Produto já foi selecionado' ,mtInformation,[mbOK],0);
+     lkpProduto.SetFocus;
+     abort;
+  end;
+
+
+  edtTotalProduto.Value:=TotalizarProduto(edtValorUnitario.Value, edtQtde.Value,edtDesconto.Value);
+
+  DtmOrcamentos.cdsItensOrcamento.Append;
+  DtmOrcamentos.cdsItensOrcamento.FieldByName('OrcItens_prodId').AsString      :=lkpProduto.Text;
+  DtmOrcamentos.cdsItensOrcamento.FieldByName('Prod_Nome').AsString            :=DtmOrcamentos.QryProduto.FieldByName('Prod_Nome').AsString;
+  DtmOrcamentos.cdsItensOrcamento.FieldByName('OrcItens_Quantidade').AsFloat   :=edtQtde.Value;
+  DtmOrcamentos.cdsItensOrcamento.FieldByName('OrcItens_ValorUnitario').AsFloat:=edtValorUnitario.Value;
+  DtmOrcamentos.cdsItensOrcamento.FieldByName('OrcItens_TotalProduto').AsFloat :=edtTotalProduto.Value;
+  DtmOrcamentos.cdsItensOrcamento.FieldByName('OrcItens_Desc').AsFloat         := edtDesconto.Value;
+  DtmOrcamentos.cdsItensOrcamento.FieldByName('OrcItens_Pintura').AsFloat      := edtHoraPintura.Value;
+  DtmOrcamentos.cdsItensOrcamento.FieldByName('OrcItens_Hora').AsFloat         := edtHorasServico.Value;
+  DtmOrcamentos.cdsItensOrcamento.FieldByName('OrcItens_Operacao').AsString    := cbOperacao.Text;
+  DtmOrcamentos.cdsItensOrcamento.FieldByName('OrcItens_TipoPeca').AsString    := cbTipoPeca.Text;
+  DtmOrcamentos.cdsItensOrcamento.Post;
+  edtValorTotal.Value:=TotalizarVenda;
+  LimparComponenteItem;
+  lkpProduto.SetFocus;
+end;
+
+procedure TfrmOrcamento.LimparComponenteItem;
+begin
+  lkpProduto.Text       := '';
+  edtQtde.Value         := 0;
+  edtValorUnitario.Value:= 0;
+  edtTotalProduto.Value := 0;
+  edtHoraPintura.Value  := 0;
+  edtHorasServico.Value :=0;
+  cbTipoPeca.itemIndex  :=0;
+  edtDesconto.text      := '';
+  cbOperacao.Text       :='';
+  cbFormaPagto.ItemIndex := 0;
+end;
+procedure TfrmOrcamento.lkpClienteExit(Sender: TObject);
+begin
+  inherited;
+  DtmOrcamentos.qryVeiculo.Close;
+  DtmOrcamentos.qryVeiculo.ParamByName('PCLIENTE').AsInteger := StrToInt(lkpCliente.Text);
+  DtmOrcamentos.qryVeiculo.Open;
+  lkpVeiculo.SetFocus;
+end;
+
+procedure TfrmOrcamento.lkpProdutoExit(Sender: TObject);
+begin
+  inherited;
+  if lkpProduto.Text<>EmptyStr then begin
+    DtmOrcamentos.QryProduto.Close;
+    DtmOrcamentos.QryProduto.ParamByName('PProd_cod').AsInteger := StrToInt(lkpProduto.Text);
+    DtmOrcamentos.QryProduto.Open;
+    edtValorUnitario.Value:=DtmOrcamentos.QryProduto.FieldByName('prod_ValorUnit').AsFloat;
+    edtValorUnitario.setfocus;
+    edtQtde.Value:=1;
+    edtTotalProduto.Value:=TotalizarProduto(edtValorUnitario.Value, edtQtde.Value,edtDesconto.Value);
+  end;
+
+
+
+end;
+
+
+procedure TfrmOrcamento.lkpVeiculoExit(Sender: TObject);
+begin
+  inherited;
+  edtDataOrcamento.SetFocus;
+end;
+
+procedure TfrmOrcamento.spbClienteClick(Sender: TObject);
+begin
+  inherited;
+   frmConsultaCliente := TfrmConsultaCliente.Create(Self);
+  try
+  if lkpCliente.Text<>EmptyStr then
+     frmConsultaCliente.aIniciarPesquisaId:=lkpCliente.Text;
+
+   frmConsultaCliente.ShowModal;
+
+  if frmConsultaCliente.aRetornarIdSelecionado<>Unassigned then  //Não Atribuido
+     lkpCliente.Text :=frmConsultaCliente.aRetornarIdSelecionado;
+
+  if lkpCliente.Text <> EmptyStr then
+   lkpClienteExit(Sender);
+  finally
+  FreeAndNil(frmConsultaCliente);
+  end;
+end;
+
+procedure TfrmOrcamento.SpbProdutoClick(Sender: TObject);
+begin
+  inherited;
+  frmTelaConsultaProduto:=TfrmTelaConsultaProduto.Create(Self);
+  try
+  if lkpProduto.Text<>EmptyStr then
+     frmTelaConsultaProduto.aIniciarPesquisaId:=lkpProduto.Text
+     else
+    frmTelaConsultaProduto.ShowModal;
+
+  if frmTelaConsultaProduto.aRetornarIdSelecionado<>Unassigned then  //Não Atribuido
+     lkpProduto.Text :=frmTelaConsultaProduto.aRetornarIdSelecionado;
+
+  if lkpProduto.Text <> EmptyStr then
+  lkpProduto.OnExit(Sender);
+  finally
+   FreeAndNil(frmTelaConsultaProduto);
+  end;
+
+end;
+
+procedure TfrmOrcamento.btnAlterarClick(Sender: TObject);
+begin
+  if vOrcamento.Selecionar(zqPrincipal.FieldByName('Orc_OrcId').AsInteger, DtmOrcamentos.cdsItensOrcamento) then begin
+     edtCodigoOrcamento.Text     :=IntToStr(vOrcamento.OrcamentoId);
+     lkpCliente.Text             :=IntToStr(vOrcamento.ClienteId);
+     edtDataOrcamento.Date       :=vOrcamento.DataOrcamento;
+     edtValorTotal.Value         :=vOrcamento.TotalOrcamento;
+     mmOBS.Text                  :=vOrcamento.Obs;
+     lkpVeiculo.KeyValue         :=vOrcamento.Veiculo;
+     cbFormaPagto.Text           :=vOrcamento.FormaPagto;
+     cbStatus.Text               :=vOrcamento.Status;
+     cbTipoPeca.Text             :=vOrcamento.TipoPeca;
+  end
+  else begin
+    btnCancelar.Click;
+    Abort;
+  end;
+  inherited;
+
+end;
+
+procedure TfrmOrcamento.btnApagarItemClick(Sender: TObject);
+begin
+  inherited;
+
+  if lkpProduto.Text=Null then begin
+     MessageDlg('Selecione o Produto a ser excluído' ,mtInformation,[mbOK],0);
+     dbgOrcamento.SetFocus;
+     abort;
+  end;
+
+  if DtmOrcamentos.cdsItensOrcamento.Locate('OrcItens_prodId', lkpProduto.Text, []) then begin
+     DtmOrcamentos.cdsItensOrcamento.Delete;
+     LimparComponenteItem;
+  end;
+
+  edtValorTotal.Value:=TotalizarVenda;
+end;
+
+procedure TfrmOrcamento.btnCancelarClick(Sender: TObject);
+begin
+  inherited;
+  LimparCds;
+end;
+
+procedure TfrmOrcamento.btnGravarClick(Sender: TObject);
+begin
+  inherited;
+  LimparCds;
+end;
+
+procedure TfrmOrcamento.btnInserirClick(Sender: TObject);
+begin
+  inherited;
+  edtDataOrcamento.Date:=Date;
+  edtDataPrevisao.Date := Date;
+  lkpCliente.SetFocus;
+  LimparCds;
+  mmOBS.Text := 'ORÇAMENTO PODENDO SOFRER ALTERAÇÕES DE VALORES!'
+end;
+
+procedure TfrmOrcamento.CarregarRegistroSelecionado;
+begin
+  lkpProduto.Text       := DtmOrcamentos.cdsItensOrcamento.FieldByName('OrcItens_prodId').AsString;
+  edtQtde.Value         := DtmOrcamentos.cdsItensOrcamento.FieldByName('Prod_Nome').AsFloat;
+  edtValorUnitario.Value:= DtmOrcamentos.cdsItensOrcamento.FieldByName('OrcItens_Quantidade').AsFloat;
+  edtTotalProduto.Value := DtmOrcamentos.cdsItensOrcamento.FieldByName('OrcItens_TotalProduto').AsFloat;
+  edtDesconto.Value     := DtmOrcamentos.cdsItensOrcamento.FieldByName('OrcItens_Desc').AsFloat;
+  edtHoraPintura.Value  := DtmOrcamentos.cdsItensOrcamento.FieldByName('OrcItens_Pintura').AsFloat;
+  edtHorasServico.Value := DtmOrcamentos.cdsItensOrcamento.FieldByName('OrcItens_Hora').AsFloat;
+  cbOperacao.Text       := DtmOrcamentos.cdsItensOrcamento.FieldByName('OrcItens_Operacao').AsString;
+  cbTipoPeca.Text       := DtmOrcamentos.cdsItensOrcamento.FieldByName('OrcItens_TipoPeca').AsString
+end;
+
+procedure TfrmOrcamento.dbgOrcamentoDblClick(Sender: TObject);
+begin
+  CarregarRegistroSelecionado;
+end;
+
+procedure TfrmOrcamento.dbgOrcamentoKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+  BloqueiaCTRL_DEL_DBGrid(key, shift);
+end;
+
+procedure TfrmOrcamento.edtDataPrevisaoExit(Sender: TObject);
+begin
+  inherited;
+  lkpProduto.SetFocus;
+end;
+
+procedure TfrmOrcamento.edtDescontoExit(Sender: TObject);
+begin
+  edtTotalProduto.Value:=TotalizarProduto(edtValorUnitario.Value, edtQtde.Value,edtDesconto.value);
+end;
+
+procedure TfrmOrcamento.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  inherited;
+
+  if Assigned(DtmOrcamentos) then
+     FreeAndNil(DtmOrcamentos);
+
+  if Assigned(vOrcamento) then
+     FreeAndNil(vOrcamento);
+end;
+
+procedure TfrmOrcamento.FormCreate(Sender: TObject);
+begin
+  inherited;
+    DtmOrcamentos := TDtmOrcamentos.Create(self);
+
+  vOrcamento:=TOrcamento.Create(dtmPrincipal.ConexaoDB);
+
+  IndiceAtual:='Orc_OrcId';
+end;
+
+function TfrmOrcamento.Gravar(EstadoDoCadastro: TEstadoCadastro): boolean;
+begin
+ Result:=False;
+  if edtCodigoOrcamento.Text<>EmptyStr then
+     vOrcamento.OrcamentoId:=StrToInt(edtCodigoOrcamento.Text)
+  else
+     vOrcamento.OrcamentoId:=0;
+
+  vOrcamento.ClienteId            :=StrToInt(lkpCliente.Text);
+  vOrcamento.DataOrcamento        :=edtDataOrcamento.Date;
+  vOrcamento.TotalOrcamento       :=edtValorTotal.Value;
+  vOrcamento.Obs                  := mmOBS.Text;
+  vOrcamento.Veiculo              :=lkpVeiculo.KeyValue;
+  vOrcamento.FormaPagto           := cbFormaPagto.Text;
+  vOrcamento.Status               := cbStatus.Text;
+
+  if (EstadoDoCadastro=ecInserir) then begin
+     vOrcamento.OrcamentoId:=vOrcamento.Inserir(DtmOrcamentos.cdsItensOrcamento);
+  end
+  else if (EstadoDoCadastro=ecAlterar) then
+     vOrcamento.Atualizar(DtmOrcamentos.cdsItensOrcamento);
+
+  frmRelProOrcamento:=TfrmRelProOrcamento.Create(self);
+  frmRelProOrcamento.QryOrcamento.Close;
+  frmRelProOrcamento.QryOrcamento.ParamByName('Orc_OrcId').AsInteger:= vOrcamento.OrcamentoId;
+  frmRelProOrcamento.QryOrcamento.Open;
+
+  frmRelProOrcamento.QryOrcamentoItens.Close;
+  frmRelProOrcamento.QryOrcamentoItens.ParamByName('Orc_OrcId').AsInteger:= vOrcamento.OrcamentoId;
+  frmRelProOrcamento.QryOrcamentoItens.Open;
+
+  frmRelProOrcamento.QryVeiculo.Close;
+  frmRelProOrcamento.QryVeiculo.ParamByName('PVEIC_COD').AsInteger:= vOrcamento.Veiculo;
+  frmRelProOrcamento.QryVeiculo.Open;
+
+  frmRelProOrcamento.QryEmpresa.Close;
+  frmRelProOrcamento.QryEmpresa.Open;
+
+
+  frmRelProOrcamento.Relatorio.PreviewModal;
+  frmRelProOrcamento.Release;
+
+  Result:=true;
+end;
+
+procedure TfrmOrcamento.LimparCds;
+begin
+  DtmOrcamentos.cdsItensOrcamento.First;
+  while not DtmOrcamentos.cdsItensOrcamento.Eof do
+    DtmOrcamentos.cdsItensOrcamento.Delete;
+
+end;
+
+function TfrmOrcamento.TotalizarProduto(valorUnitario, Quantidade,Desconto:Double):Double;
+begin
+  result :=(valorUnitario * Quantidade) - ((valorUnitario * Quantidade) * (Desconto)/100);
+end;
+
+function TfrmOrcamento.TotalizarVenda:Double;
+begin
+  result:=0;
+  DtmOrcamentos.cdsItensOrcamento.First;
+  while not DtmOrcamentos.cdsItensOrcamento.Eof do begin
+    result := result + DtmOrcamentos.cdsItensOrcamento.FieldByName('OrcItens_TotalProduto').AsFloat;
+    DtmOrcamentos.cdsItensOrcamento.Next;
+  end;
+end;
+
+end.

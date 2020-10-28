@@ -1,0 +1,109 @@
+object frmPrincipal: TfrmPrincipal
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsSingle
+  Caption = 'Gerencial'
+  ClientHeight = 359
+  ClientWidth = 578
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  FormStyle = fsStayOnTop
+  Menu = mmPrincipal
+  OldCreateOrder = False
+  Position = poDesktopCenter
+  Visible = True
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 578
+    Height = 33
+    Align = alTop
+    Caption = 'Icones'
+    TabOrder = 0
+  end
+  object Panel2: TPanel
+    Left = 0
+    Top = 318
+    Width = 578
+    Height = 41
+    Align = alBottom
+    TabOrder = 1
+  end
+  object Panel3: TPanel
+    Left = 0
+    Top = 33
+    Width = 578
+    Height = 285
+    Align = alClient
+    TabOrder = 2
+  end
+  object mmPrincipal: TMainMenu
+    Left = 312
+    Top = 89
+    object Cadastros1: TMenuItem
+      Caption = 'Cadastros'
+      object CadastrodeClientes1: TMenuItem
+        Caption = 'Cadastro de Clientes'
+      end
+      object CadastrodeFornecedores1: TMenuItem
+        Caption = 'Cadastro de Fornecedores'
+      end
+      object Produtos1: TMenuItem
+        Caption = 'Produtos'
+      end
+      object Funcionarios1: TMenuItem
+        Caption = 'Funcionarios'
+      end
+      object Acesso1: TMenuItem
+        Caption = 'Acesso'
+      end
+      object Sair1: TMenuItem
+        Caption = 'Sair'
+      end
+    end
+    object Oramento1: TMenuItem
+      Caption = 'Servi'#231'os'
+      object Oramento2: TMenuItem
+        Caption = 'Or'#231'amento'
+      end
+      object Vendas1: TMenuItem
+        Caption = 'Finalizar Or'#231'amento'
+      end
+    end
+    object Relatrios1: TMenuItem
+      Caption = 'Relat'#243'rios'
+      object Oramentos1: TMenuItem
+        Caption = 'Or'#231'amentos'
+      end
+      object N2: TMenuItem
+        Caption = '-'
+      end
+      object Cadastrodeclientes2: TMenuItem
+        Caption = 'Cadastro de clientes'
+      end
+      object Cadastrodefuncionarios1: TMenuItem
+        Caption = 'Cadastro de funcionarios'
+      end
+      object Cadastrodefornecedores2: TMenuItem
+        Caption = 'Cadastro de fornecedores'
+      end
+      object N1: TMenuItem
+        Caption = '-'
+      end
+      object Cadastrodeprodutos1: TMenuItem
+        Caption = 'Cadastro de produtos'
+      end
+    end
+    object Fechar1: TMenuItem
+      Caption = 'Fechar'
+      OnClick = Fechar1Click
+    end
+  end
+end

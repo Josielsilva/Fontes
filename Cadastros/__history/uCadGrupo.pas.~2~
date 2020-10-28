@@ -1,0 +1,29 @@
+unit uCadGrupo;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UFrmPadrao, Data.DB, Vcl.ExtCtrls,
+  ZAbstractRODataset, ZAbstractDataset, ZDataset, Vcl.StdCtrls, Vcl.Mask,
+  Vcl.Grids, Vcl.DBGrids, Vcl.ComCtrls, Vcl.DBCtrls, Vcl.Buttons,uDtmPrincipal;
+
+type
+  TfrmGrupo = class(TfrmPadrao)
+    edtCodigo: TLabeledEdit;
+    edtNome: TLabeledEdit;
+    edtDescricao: TLabeledEdit;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmGrupo: TfrmGrupo;
+
+implementation
+
+{$R *.dfm}
+
+end.

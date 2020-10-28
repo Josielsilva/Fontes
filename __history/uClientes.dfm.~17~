@@ -1,0 +1,114 @@
+inherited frmCliente: TfrmCliente
+  Caption = 'Cadastro de clientes'
+  ClientHeight = 386
+  ClientWidth = 781
+  ExplicitWidth = 797
+  ExplicitHeight = 425
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited Panel2: TPanel
+    Top = 345
+    Width = 781
+    ExplicitTop = 345
+    ExplicitWidth = 781
+    inherited dbnPadrao: TDBNavigator
+      Hints.Strings = ()
+    end
+  end
+  inherited Panel3: TPanel
+    Width = 781
+    Height = 345
+    ExplicitWidth = 781
+    ExplicitHeight = 304
+    inherited pgcPesquisa_cadastro: TPageControl
+      Width = 781
+      Height = 345
+      inherited TabSheet1: TTabSheet
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
+      end
+    end
+  end
+  object zqCliente: TZQuery
+    Connection = DtmPrincipal.ConexaoDB
+    SQL.Strings = (
+      'select * from cliente')
+    Params = <>
+    DataSource = dsCliente
+    Left = 604
+    Top = 233
+    object zqClienteCod_cli: TIntegerField
+      FieldName = 'Cod_cli'
+      ReadOnly = True
+    end
+    object zqClienteID_Veiculo: TIntegerField
+      FieldName = 'ID_Veiculo'
+    end
+    object zqClienteNome_cli: TWideStringField
+      FieldName = 'Nome_cli'
+      Size = 50
+    end
+    object zqClienteRazao_cli: TWideStringField
+      FieldName = 'Razao_cli'
+      Size = 50
+    end
+    object zqClienteFantasia_cli: TWideStringField
+      FieldName = 'Fantasia_cli'
+      Size = 50
+    end
+    object zqClienteCNPJ_CPF_cli: TWideStringField
+      FieldName = 'CNPJ_CPF_cli'
+      Size = 14
+    end
+    object zqClienteRG_Cli: TWideStringField
+      FieldName = 'RG_Cli'
+      Size = 11
+    end
+    object zqClienteLogradouro_cli: TWideStringField
+      FieldName = 'Logradouro_cli'
+      Size = 50
+    end
+    object zqClienteNumero_cli: TIntegerField
+      FieldName = 'Numero_cli'
+    end
+    object zqClienteCep_cli: TWideStringField
+      FieldName = 'Cep_cli'
+      Size = 9
+    end
+    object zqClienteBairro_cli: TWideStringField
+      FieldName = 'Bairro_cli'
+    end
+    object zqClienteUF_Cli: TWideStringField
+      FieldName = 'UF_Cli'
+      Size = 2
+    end
+    object zqClienteCidade_cli: TWideStringField
+      FieldName = 'Cidade_cli'
+    end
+    object zqClienteTelefone1_cli: TWideStringField
+      FieldName = 'Telefone1_cli'
+      Size = 15
+    end
+    object zqClienteTelefone2_cli: TWideStringField
+      FieldName = 'Telefone2_cli'
+      Size = 15
+    end
+    object zqClienteTipoVeiculo_cli: TWideStringField
+      FieldName = 'TipoVeiculo_cli'
+      Size = 10
+    end
+    object zqClienteAnoVeiculo_cli: TWideStringField
+      FieldName = 'AnoVeiculo_cli'
+      Size = 4
+    end
+    object zqClienteCodVeiculi_cli: TIntegerField
+      FieldName = 'CodVeiculi_cli'
+    end
+  end
+  object dsCliente: TDataSource
+    Left = 676
+    Top = 233
+  end
+end

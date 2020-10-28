@@ -1,0 +1,145 @@
+unit uLogin;
+
+interface
+
+uses
+ Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls,uDtmPrincipal,uFuncoesCryptografia,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Stan.Async, FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client, ZAbstractRODataset, ZAbstractDataset, ZDataset,uFuncaoLogin,
+  Vcl.Buttons;
+
+type
+  TfrmLogin = class(TForm)
+    Panel3: TPanel;
+    Label1: TLabel;
+    edtLogin: TEdit;
+    edtSenha: TEdit;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    zqAcesso: TZQuery;
+    btnFechar: TBitBtn;
+    btnAcessar: TBitBtn;
+    procedure Button1Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure btnAcessarClick(Sender: TObject);
+    procedure btnFecharClick(Sender: TObject);
+  private
+  iCont : Integer;
+  bFechar:Boolean;
+    function Conexao: Boolean;
+    function Login: Boolean;
+    procedure FecharAplicacao;
+    procedure FecharFormulario;
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmLogin: TfrmLogin;
+
+implementation
+
+uses uMan;
+
+{$R *.dfm}
+
+procedure TfrmLogin.btnAcessarClick(Sender: TObject);
+var oUsuario:TUsuario;
+begin
+  Try
+    oUsuario:=TUsuario.Create(dtmPrincipal.ConexaoDB);
+    if oUsuario.Logar(edtlogin.Text,edtSenha.Text) then begin
+
+       //oUsuarioLogado.codigo := oUsuario.codigo;
+       //oUsuarioLogado.nome   := oUsuario.nome;
+      // oUsuarioLogado.senha  := oUsuario.senha;
+
+       FecharFormulario; //Fecha o Formulario do Login
+    end
+    else begin
+      MessageDlg('Usuário Inválido',mtInformation,[mbok],0);
+      edtLogin.SetFocus;
+    end;
+
+  Finally
+    if Assigned(oUsuario) then
+       FreeAndNil(oUsuario);
+  End;
+end;
+
+procedure TfrmLogin.FecharAplicacao;
+begin
+  bFechar := true;
+  Application.Terminate;
+end;
+
+procedure TfrmLogin.FecharFormulario;
+begin
+  bFechar := true;
+  Close;
+end;
+
+procedure TfrmLogin.btnFecharClick(Sender: TObject);
+begin
+ FecharAplicacao;
+end;
+
+procedure TfrmLogin.Button1Click(Sender: TObject);
+var
+  FMan: TFrmMan;
+  iTentativa : Integer;
+begin
+  iTentativa := 3;
+//
+//  FMan := TFrmMan.Create(self);
+//  with FMan do
+//  begin
+//   try
+      if Login then
+      begin
+        ShowModal;
+        Self.Close;
+      end
+      else
+      begin
+        inc(iCont);
+        iTentativa := iTentativa - iCont;
+        edtLogin.Text := '';
+        edtSenha.Text := '';
+        edtLogin.SetFocus;
+        ShowMessage('Você tem ! '+iTentativa.ToString +' tentativas');
+        if iTentativa = 0 then
+        Self.Destroy
+      end;
+//    finally
+//      Free;
+//    end;
+
+end;
+
+function TfrmLogin.Login : Boolean;
+begin
+  zqAcesso.Connection := DtmPrincipal.ConexaoDB;
+  with zqAcesso do
+  begin
+    sql.Add('select * from login where login = :Plogin and senha = :psenha');
+    ParamByName('pLogin').AsString := edtLogin.Text;
+    ParamByName('psenha').AsString := edtSenha.Text;
+    Open;
+    if not IsEmpty then
+      Result := True
+    else
+      Result := False;
+
+  end;
+end;
+
+
+
+
+end.

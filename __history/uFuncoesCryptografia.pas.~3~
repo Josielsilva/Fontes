@@ -1,0 +1,60 @@
+unit uFuncoesCryptografia;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
+  Vcl.Graphics;
+
+function Criptografia(const Valeu: string): string;
+
+function DesCriptografia(const Valeu: string): string;
+
+implementation
+
+function Criptografia(const Valeu: string): string;
+var
+  i, iQtdeEnt, iIntervalo: Integer;
+  sSaida: string;
+  sProximoCaracter: string;
+begin
+  iIntervalo := 0;
+  i := 0;
+  iQtdeEnt := 0;
+
+  if (Valeu <> EmptyStr) then
+  begin
+    iQtdeEnt := Length(Valeu);
+    for i := iQtdeEnt downto 1 do
+    begin
+      sProximoCaracter := Copy(Valeu, i, 1);
+      sSaida := sSaida + (Char(Ord(sProximoCaracter[1]) + iIntervalo));
+    end;
+    Result := sSaida;
+  end;
+end;
+
+function DesCriptografia(const Valeu: string): string;
+var
+  i, iQtdeEnt, iIntervalo: Integer;
+  sSaida: string;
+  sProximoCaracter: string;
+begin
+  iIntervalo := 6;
+  i := 0;
+  iQtdeEnt := 0;
+
+  if (Valeu <> EmptyStr) then
+  begin
+    iQtdeEnt := Length(Valeu);
+    for i := iQtdeEnt to 1 do
+    begin
+      sProximoCaracter := Copy(Valeu, i, 1);
+      sSaida := sSaida + (Char(Ord(sProximoCaracter[1]) - iIntervalo));
+    end;
+    Result := sSaida;
+  end;
+end;
+
+end.
+

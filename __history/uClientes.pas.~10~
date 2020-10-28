@@ -1,0 +1,47 @@
+unit uClientes;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UFrmPadrao, Vcl.Buttons, Vcl.ExtCtrls,
+  Vcl.Mask, Vcl.DBCtrls, Vcl.StdCtrls, Data.DB, Vcl.Grids, Vcl.DBGrids,
+  Vcl.ComCtrls,uDtmPrincipal, ZAbstractRODataset, ZAbstractDataset, ZDataset;
+
+type
+  TfrmCliente = class(TfrmPadrao)
+    Label1: TLabel;
+    zqCliente: TZQuery;
+    dsCliente: TDataSource;
+    zqClienteCod_cli: TIntegerField;
+    zqClienteID_Veiculo: TIntegerField;
+    zqClienteNome_cli: TWideStringField;
+    zqClienteRazao_cli: TWideStringField;
+    zqClienteFantasia_cli: TWideStringField;
+    zqClienteCNPJ_CPF_cli: TWideStringField;
+    zqClienteRG_Cli: TWideStringField;
+    zqClienteLogradouro_cli: TWideStringField;
+    zqClienteNumero_cli: TIntegerField;
+    zqClienteCep_cli: TWideStringField;
+    zqClienteBairro_cli: TWideStringField;
+    zqClienteUF_Cli: TWideStringField;
+    zqClienteCidade_cli: TWideStringField;
+    zqClienteTelefone1_cli: TWideStringField;
+    zqClienteTelefone2_cli: TWideStringField;
+    zqClienteTipoVeiculo_cli: TWideStringField;
+    zqClienteAnoVeiculo_cli: TWideStringField;
+    zqClienteCodVeiculi_cli: TIntegerField;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmCliente: TfrmCliente;
+
+implementation
+
+{$R *.dfm}
+
+end.

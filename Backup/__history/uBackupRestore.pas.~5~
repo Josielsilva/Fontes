@@ -1,0 +1,50 @@
+unit uBackupRestore;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Data.Win.ADODB, Vcl.StdCtrls,
+  Vcl.ExtCtrls;
+
+type
+  TfrmBackupRestore = class(TForm)
+    Panel1: TPanel;
+    Panel2: TPanel;
+    Button1: TButton;
+    Label1: TLabel;
+    edtCaminho: TEdit;
+    Label2: TLabel;
+    Button2: TButton;
+    Label3: TLabel;
+    Edit1: TEdit;
+    Label4: TLabel;
+    ADOConnection1: TADOConnection;
+    ADOQuery1: TADOQuery;
+    DataSource1: TDataSource;
+    procedure Button1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmBackupRestore: TfrmBackupRestore;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmBackupRestore.Button1Click(Sender: TObject);
+begin
+ edtCaminho.Text :='D:\Promocar';
+
+ ADOQuery1.SQL.Clear;
+ ADOQuery1.SQL.Add('USE [master] BACKUP DATABASE [DADOS_SYS] TO DISK = ''D:\Promocar\DADOS_SYS.bak''');
+ ADOQuery1.SQL.Add('WITH NOFORMAR, INIT, NAME = ''DADOS_SYS-Full Database Backup'', SKIP,NOREWIND,NOUNLOAD,STATS=10') ;
+ ADOQuery1.ExecSQL;
+ MessageBox(Handle,'Backup efetuado com sucesso!','Backup e Restore',MB_iconinformation+MB_OK);
+end;
+
+end.

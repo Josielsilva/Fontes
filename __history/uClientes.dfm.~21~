@@ -1,0 +1,153 @@
+inherited frmCliente: TfrmCliente
+  Caption = 'Cadastro de clientes'
+  ClientHeight = 386
+  ClientWidth = 781
+  ExplicitWidth = 797
+  ExplicitHeight = 425
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited Panel2: TPanel
+    Top = 345
+    Width = 781
+    ExplicitTop = 345
+    ExplicitWidth = 781
+    DesignSize = (
+      781
+      41)
+    inherited btnNavegador: TDBNavigator
+      Hints.Strings = ()
+    end
+  end
+  inherited Panel3: TPanel
+    Width = 781
+    Height = 345
+    ExplicitWidth = 781
+    ExplicitHeight = 345
+    inherited pgcPadrao: TPageControl
+      Width = 781
+      Height = 345
+      ExplicitWidth = 781
+      ExplicitHeight = 345
+      inherited TabSheet1: TTabSheet
+        ExplicitWidth = 773
+        ExplicitHeight = 317
+        inherited dbgPadrao: TDBGrid
+          Width = 773
+          Height = 260
+          Columns = <
+            item
+              Expanded = False
+              FieldName = 'Cod_cli'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'Nome_cli'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'Numero_cli'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'Telefone1_cli'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'Telefone2_cli'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'CodVeiculi_cli'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'Logradouro_cli'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'Bairro_cli'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'Cep_cli'
+              Visible = True
+            end>
+        end
+        inherited Panel1: TPanel
+          Width = 773
+          ExplicitWidth = 773
+        end
+      end
+      inherited TabSheet2: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 24
+        ExplicitWidth = 773
+        ExplicitHeight = 317
+      end
+    end
+  end
+  inherited zqPrincipal: TZQuery
+    Connection = DtmPrincipal.ConexaoDB
+    SQL.Strings = (
+      'SELECT    CL.Cod_cli,'
+      '          CL.Nome_cli,'
+      #9'   CL.Numero_cli,'
+      #9'   CL.Telefone1_cli,'
+      #9'   CL.Telefone2_cli,'
+      #9'   CL.CodVeiculi_cli,'
+      #9'   CL.Logradouro_cli,'
+      #9'   CL.Bairro_cli,'
+      #9'   CL.Cep_cli FROM CLIENTE CL'
+      '')
+    object zqPrincipalCod_cli: TIntegerField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'Cod_cli'
+      ReadOnly = True
+    end
+    object zqPrincipalNome_cli: TWideStringField
+      DisplayLabel = 'Nome'
+      FieldName = 'Nome_cli'
+      Size = 50
+    end
+    object zqPrincipalNumero_cli: TIntegerField
+      DisplayLabel = 'N'#186
+      FieldName = 'Numero_cli'
+    end
+    object zqPrincipalTelefone1_cli: TWideStringField
+      DisplayLabel = 'Tel.'
+      FieldName = 'Telefone1_cli'
+      Size = 15
+    end
+    object zqPrincipalTelefone2_cli: TWideStringField
+      DisplayLabel = 'Cel.'
+      FieldName = 'Telefone2_cli'
+      Size = 15
+    end
+    object zqPrincipalCodVeiculi_cli: TIntegerField
+      DisplayLabel = 'Cod_Veiculo'
+      FieldName = 'CodVeiculi_cli'
+    end
+    object zqPrincipalLogradouro_cli: TWideStringField
+      DisplayLabel = 'Logradouro'
+      FieldName = 'Logradouro_cli'
+      Size = 50
+    end
+    object zqPrincipalBairro_cli: TWideStringField
+      DisplayLabel = 'Bairro'
+      FieldName = 'Bairro_cli'
+    end
+    object zqPrincipalCep_cli: TWideStringField
+      DisplayLabel = 'Cep'
+      FieldName = 'Cep_cli'
+      Size = 9
+    end
+  end
+end

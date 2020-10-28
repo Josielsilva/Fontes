@@ -1,0 +1,329 @@
+inherited frmCadFornecedor: TfrmCadFornecedor
+  Caption = 'Cadastro de Fornecedor'
+  Position = poScreenCenter
+  ExplicitWidth = 753
+  ExplicitHeight = 431
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited Panel2: TPanel
+    inherited btnNavegador: TDBNavigator
+      Hints.Strings = ()
+    end
+  end
+  inherited Panel3: TPanel
+    inherited pgcPadrao: TPageControl
+      ActivePage = TabSheet2
+      inherited TabSheet1: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 24
+        ExplicitWidth = 729
+        ExplicitHeight = 323
+        inherited dbgPadrao: TDBGrid
+          Columns = <
+            item
+              Expanded = False
+              FieldName = 'forn_Razaosocial'
+              Width = 310
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'Forn_Fantasia'
+              Width = 204
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'Forn_Cnpj'
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'Forn_Endereco'
+              Visible = True
+            end>
+        end
+      end
+      inherited TabSheet2: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 24
+        ExplicitWidth = 729
+        ExplicitHeight = 323
+        object Label3: TLabel
+          Left = 191
+          Top = 172
+          Width = 64
+          Height = 13
+          Caption = 'Telefone Cel.'
+        end
+        object Label1: TLabel
+          Left = 14
+          Top = 172
+          Width = 69
+          Height = 13
+          Caption = 'Telefone Fixo.'
+        end
+        object Label4: TLabel
+          Left = 527
+          Top = 132
+          Width = 19
+          Height = 13
+          Caption = 'CEP'
+        end
+        object Label2: TLabel
+          Left = 149
+          Top = 8
+          Width = 25
+          Height = 13
+          Caption = 'CNPJ'
+        end
+        object Label5: TLabel
+          Left = 14
+          Top = 92
+          Width = 105
+          Height = 13
+          Caption = 'Busca cep Autom'#225'tico'
+        end
+        object SpeedButton1: TSpeedButton
+          Left = 134
+          Top = 105
+          Width = 23
+          Height = 21
+          OnClick = SpeedButton1Click
+        end
+        object lblCodigo: TLabeledEdit
+          Tag = 1
+          Left = 14
+          Top = 24
+          Width = 121
+          Height = 21
+          EditLabel.Width = 107
+          EditLabel.Height = 13
+          EditLabel.Caption = 'C'#243'digo Do Fornecedor'
+          TabOrder = 0
+        end
+        object lblRazao: TLabeledEdit
+          Left = 14
+          Top = 64
+          Width = 363
+          Height = 21
+          EditLabel.Width = 60
+          EditLabel.Height = 13
+          EditLabel.Caption = 'Raz'#227'o Social'
+          TabOrder = 3
+        end
+        object lblFantasia: TLabeledEdit
+          Left = 391
+          Top = 64
+          Width = 306
+          Height = 21
+          EditLabel.Width = 71
+          EditLabel.Height = 13
+          EditLabel.Caption = 'Nome Fantasia'
+          TabOrder = 4
+        end
+        object lblEndereco: TLabeledEdit
+          Left = 168
+          Top = 105
+          Width = 438
+          Height = 21
+          EditLabel.Width = 45
+          EditLabel.Height = 13
+          EditLabel.Caption = 'Endere'#231'o'
+          TabOrder = 6
+        end
+        object lblNumero: TLabeledEdit
+          Left = 622
+          Top = 105
+          Width = 75
+          Height = 21
+          EditLabel.Width = 12
+          EditLabel.Height = 13
+          EditLabel.Caption = 'N'#186
+          TabOrder = 7
+        end
+        object lblBairro: TLabeledEdit
+          Left = 14
+          Top = 145
+          Width = 251
+          Height = 21
+          EditLabel.Width = 28
+          EditLabel.Height = 13
+          EditLabel.Caption = 'Bairro'
+          TabOrder = 8
+        end
+        object lblCidade: TLabeledEdit
+          Left = 280
+          Top = 145
+          Width = 233
+          Height = 21
+          EditLabel.Width = 33
+          EditLabel.Height = 13
+          EditLabel.Caption = 'Cidade'
+          TabOrder = 9
+        end
+        object lblUF: TLabeledEdit
+          Left = 648
+          Top = 145
+          Width = 49
+          Height = 21
+          EditLabel.Width = 13
+          EditLabel.Height = 13
+          EditLabel.Caption = 'UF'
+          TabOrder = 11
+        end
+        object lblEmail: TLabeledEdit
+          Left = 391
+          Top = 189
+          Width = 306
+          Height = 21
+          EditLabel.Width = 28
+          EditLabel.Height = 13
+          EditLabel.Caption = 'E-Mail'
+          TabOrder = 14
+        end
+        object EdtTelefoneCel: TMaskEdit
+          Left = 200
+          Top = 189
+          Width = 177
+          Height = 21
+          EditMask = '(99) 9999-9999;1;_'
+          MaxLength = 14
+          TabOrder = 13
+          Text = '(  )     -    '
+        end
+        object edtCEP: TMaskEdit
+          Left = 527
+          Top = 145
+          Width = 104
+          Height = 21
+          EditMask = '99.999-999;1;_'
+          MaxLength = 10
+          TabOrder = 10
+          Text = '  .   -   '
+        end
+        object edtTelefone: TMaskEdit
+          Left = 14
+          Top = 189
+          Width = 167
+          Height = 21
+          EditMask = '(99) 9999-9999;1;_'
+          MaxLength = 14
+          TabOrder = 12
+          Text = '(  )     -    '
+        end
+        object edtCnpj: TMaskEdit
+          Left = 149
+          Top = 24
+          Width = 164
+          Height = 21
+          EditMask = '##.###.###/####-##'
+          MaxLength = 18
+          TabOrder = 1
+          Text = '  .   .   /    -  '
+        end
+        object EdtBuscaCep: TMaskEdit
+          Left = 14
+          Top = 105
+          Width = 119
+          Height = 21
+          EditMask = '99999-999;1;_'
+          MaxLength = 9
+          TabOrder = 5
+          Text = '     -   '
+        end
+        object lblNome: TLabeledEdit
+          Left = 319
+          Top = 24
+          Width = 378
+          Height = 21
+          EditLabel.Width = 30
+          EditLabel.Height = 13
+          EditLabel.Caption = 'Nome '
+          TabOrder = 2
+        end
+      end
+    end
+  end
+  inherited zqPrincipal: TZQuery
+    Connection = DtmPrincipal.ConexaoDB
+    SQL.Strings = (
+      'select '
+      ' forn_Razaosocial,'
+      ' Forn_Fantasia,'
+      ' Forn_Cnpj,'
+      ' Forn_Endereco,'
+      ' Forn_Telefone1,'
+      ' Forn_Cod'
+      ' from'
+      'fornecedor')
+    object zqPrincipalforn_Razaosocial: TWideStringField
+      DisplayLabel = 'Raz'#227'o Social'
+      FieldName = 'forn_Razaosocial'
+      Required = True
+      Size = 100
+    end
+    object zqPrincipalForn_Fantasia: TWideStringField
+      DisplayLabel = 'Nome Fantasia'
+      FieldName = 'Forn_Fantasia'
+      Required = True
+      Size = 50
+    end
+    object zqPrincipalForn_Cnpj: TWideStringField
+      DisplayLabel = 'Cnpj'
+      FieldName = 'Forn_Cnpj'
+      Required = True
+    end
+    object zqPrincipalForn_Endereco: TWideStringField
+      DisplayLabel = 'Endere'#231'o'
+      FieldName = 'Forn_Endereco'
+      Required = True
+      Size = 50
+    end
+    object zqPrincipalForn_Telefone1: TWideStringField
+      DisplayLabel = 'Telefone'
+      FieldName = 'Forn_Telefone1'
+      Required = True
+      Size = 15
+    end
+    object zqPrincipalforn_cod: TIntegerField
+      FieldName = 'forn_cod'
+    end
+  end
+  object RESTClient1: TRESTClient
+    Accept = 'application/json;q=0.9,text/plain;q=0.9,text/html'
+    AcceptCharset = 'UTF-8'
+    BaseURL = 'http://viacep.com.br'
+    Params = <>
+    HandleRedirects = True
+    RaiseExceptionOn500 = False
+    Left = 176
+    Top = 288
+  end
+  object RESTRequest1: TRESTRequest
+    Accept = 'application/json;q=0.9,text/plain;q=0.9,text/html'
+    AcceptCharset = 'UTF-8'
+    Client = RESTClient1
+    Params = <
+      item
+        Kind = pkURLSEGMENT
+        name = 'cep'
+        Options = [poAutoCreated]
+      end
+      item
+        Kind = pkURLSEGMENT
+        name = 'formato'
+        Options = [poAutoCreated]
+      end>
+    Resource = 'ws/{cep}/{formato}'
+    Response = RESTResponse1
+    Timeout = 0
+    SynchronizedEvents = False
+    Left = 256
+    Top = 280
+  end
+  object RESTResponse1: TRESTResponse
+    Left = 360
+    Top = 279
+  end
+end

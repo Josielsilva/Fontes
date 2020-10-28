@@ -1,0 +1,336 @@
+inherited frmCadProduto: TfrmCadProduto
+  Caption = 'Cadastro de Produto'
+  ExplicitTop = -43
+  ExplicitWidth = 753
+  ExplicitHeight = 431
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited Panel2: TPanel
+    inherited btnNavegador: TDBNavigator
+      Hints.Strings = ()
+    end
+  end
+  inherited Panel3: TPanel
+    inherited pgcPadrao: TPageControl
+      ActivePage = TabSheet2
+      inherited TabSheet1: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 24
+        ExplicitWidth = 729
+        ExplicitHeight = 323
+      end
+      inherited TabSheet2: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 24
+        ExplicitWidth = 729
+        ExplicitHeight = 323
+        object Label1: TLabel
+          Left = 517
+          Top = 80
+          Width = 91
+          Height = 13
+          Caption = 'Unidade de Medida'
+        end
+        object Label2: TLabel
+          Left = 14
+          Top = 253
+          Width = 58
+          Height = 13
+          Caption = 'Observa'#231#227'o'
+        end
+        object Label3: TLabel
+          Left = 14
+          Top = 123
+          Width = 24
+          Height = 13
+          Caption = 'Valor'
+        end
+        object Label4: TLabel
+          Left = 141
+          Top = 123
+          Width = 56
+          Height = 13
+          Caption = 'Quantidade'
+        end
+        object Label5: TLabel
+          Left = 339
+          Top = 80
+          Width = 47
+          Height = 13
+          Caption = 'SubGrupo'
+        end
+        object Label6: TLabel
+          Left = 142
+          Top = 80
+          Width = 29
+          Height = 13
+          Caption = 'Grupo'
+        end
+        object Label7: TLabel
+          Left = 522
+          Top = 280
+          Width = 55
+          Height = 13
+          Caption = 'Fornecedor'
+        end
+        object edtCodigo: TLabeledEdit
+          Left = 14
+          Top = 16
+          Width = 121
+          Height = 21
+          EditLabel.Width = 33
+          EditLabel.Height = 13
+          EditLabel.Caption = 'C'#243'digo'
+          TabOrder = 0
+        end
+        object edtNome: TLabeledEdit
+          Left = 14
+          Top = 56
+          Width = 121
+          Height = 21
+          EditLabel.Width = 27
+          EditLabel.Height = 13
+          EditLabel.Caption = 'Nome'
+          TabOrder = 1
+        end
+        object edtDescricao: TLabeledEdit
+          Left = 141
+          Top = 56
+          Width = 370
+          Height = 21
+          EditLabel.Width = 46
+          EditLabel.Height = 13
+          EditLabel.Caption = 'Descri'#231#227'o'
+          TabOrder = 2
+        end
+        object edtDescReduzida: TLabeledEdit
+          Left = 517
+          Top = 56
+          Width = 201
+          Height = 21
+          EditLabel.Width = 93
+          EditLabel.Height = 13
+          EditLabel.Caption = 'Descri'#231#227'o Reduzida'
+          TabOrder = 3
+        end
+        object lblMarca: TLabeledEdit
+          Left = 14
+          Top = 96
+          Width = 121
+          Height = 21
+          EditLabel.Width = 29
+          EditLabel.Height = 13
+          EditLabel.Caption = 'Marca'
+          TabOrder = 4
+        end
+        object lkpGrupo: TDBLookupComboBox
+          Left = 141
+          Top = 96
+          Width = 192
+          Height = 21
+          KeyField = 'grupo_cod'
+          ListField = 'grupo_nome'
+          ListSource = dsGrupo
+          TabOrder = 5
+        end
+        object lkpSubGrupo: TDBLookupComboBox
+          Left = 339
+          Top = 96
+          Width = 172
+          Height = 21
+          KeyField = 'SubGrupo_Cod'
+          ListField = 'subgrupo_nome'
+          ListSource = dsSubGrupo
+          TabOrder = 6
+        end
+        object edtValor: TCurrencyEdit
+          Left = 14
+          Top = 142
+          Width = 121
+          Height = 21
+          TabOrder = 7
+        end
+        object edtQuantidade: TCurrencyEdit
+          Left = 141
+          Top = 142
+          Width = 121
+          Height = 21
+          DisplayFormat = ',0.00;-,0.00'
+          TabOrder = 8
+        end
+        object lbkUnidadeMedida: TDBLookupComboBox
+          Left = 517
+          Top = 96
+          Width = 201
+          Height = 21
+          KeyField = 'UniMedida_Nome'
+          ListSource = dsUnMedida
+          TabOrder = 9
+        end
+        object lbkFornecedor: TDBLookupComboBox
+          Left = 522
+          Top = 299
+          Width = 183
+          Height = 21
+          DataField = 'Forn_cod'
+          DataSource = dsFornecedor
+          TabOrder = 10
+        end
+        object Obs: TMemo
+          Left = 14
+          Top = 276
+          Width = 497
+          Height = 45
+          Lines.Strings = (
+            'Obs')
+          TabOrder = 11
+        end
+      end
+    end
+  end
+  inherited zqPrincipal: TZQuery
+    Connection = DtmPrincipal.ConexaoDB
+    SQL.Strings = (
+      'select * from produtos')
+    Left = 568
+    Top = 8
+    object zqPrincipalProd_Cod: TIntegerField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'Prod_Cod'
+      ReadOnly = True
+    end
+    object zqPrincipalProd_Nome: TWideStringField
+      DisplayLabel = 'Nome'
+      FieldName = 'Prod_Nome'
+      Size = 15
+    end
+    object zqPrincipalprod_Descricao: TWideStringField
+      DisplayLabel = 'Descricao'
+      FieldName = 'prod_Descricao'
+      Size = 50
+    end
+    object zqPrincipalProd_Desc_Redu: TWideStringField
+      DisplayLabel = 'Descric'#227'o Reduzida'
+      FieldName = 'Prod_Desc_Redu'
+      Size = 15
+    end
+    object zqPrincipalProd_Qtde: TIntegerField
+      DisplayLabel = 'Quantidade'
+      FieldName = 'Prod_Qtde'
+    end
+    object zqPrincipalProd_Grupo: TWideStringField
+      DisplayLabel = 'Grupo'
+      FieldName = 'Prod_Grupo'
+      Size = 10
+    end
+    object zqPrincipalProd_SubGrupo: TWideStringField
+      DisplayLabel = 'SubGrupo'
+      FieldName = 'Prod_SubGrupo'
+      Size = 10
+    end
+    object zqPrincipalprod_ValorUnit: TFloatField
+      DisplayLabel = 'Valor Unit'#225'rio'
+      FieldName = 'prod_ValorUnit'
+    end
+    object zqPrincipalProd_Marca: TWideStringField
+      DisplayLabel = 'Marca'
+      FieldName = 'Prod_Marca'
+      Size = 15
+    end
+    object zqPrincipalProd_Obs: TWideStringField
+      DisplayLabel = 'Observa'#231#227'o'
+      FieldName = 'Prod_Obs'
+      Size = 255
+    end
+    object zqPrincipalProd_FornecedorId: TIntegerField
+      DisplayLabel = 'C'#243'digo do Fornecedor'
+      FieldName = 'Prod_FornecedorId'
+    end
+  end
+  inherited dsPrincipal: TDataSource
+    Left = 608
+    Top = 9
+  end
+  object zqGrupo: TZQuery
+    Connection = DtmPrincipal.ConexaoDB
+    SQL.Strings = (
+      'Select grupo_cod ,grupo_nome'
+      'from grupo')
+    Params = <>
+    Left = 112
+    Top = 256
+    object zqGrupogrupo_cod: TIntegerField
+      FieldName = 'grupo_cod'
+      ReadOnly = True
+    end
+    object zqGrupogrupo_nome: TWideStringField
+      FieldName = 'grupo_nome'
+      Size = 15
+    end
+  end
+  object dsGrupo: TDataSource
+    DataSet = zqGrupo
+    Left = 152
+    Top = 257
+  end
+  object zqSubGrupo: TZQuery
+    Connection = DtmPrincipal.ConexaoDB
+    SQL.Strings = (
+      'Select  SubGrupo_Cod,subgrupo_nome'
+      ' from SubGrupo')
+    Params = <>
+    Left = 336
+    Top = 240
+    object zqSubGrupoSubGrupo_Cod: TIntegerField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'SubGrupo_Cod'
+      ReadOnly = True
+    end
+    object zqSubGruposubgrupo_nome: TWideStringField
+      FieldName = 'subgrupo_nome'
+      Size = 15
+    end
+  end
+  object dsSubGrupo: TDataSource
+    DataSet = zqSubGrupo
+    Left = 384
+    Top = 241
+  end
+  object zqUnMedida: TZQuery
+    Connection = DtmPrincipal.ConexaoDB
+    SQL.Strings = (
+      'select  UniMedida_Nome'
+      ' from UNIDADE_DE_MEDIDA')
+    Params = <>
+    Left = 216
+    Top = 240
+    object zqUnMedidaUniMedida_Nome: TWideStringField
+      DisplayLabel = 'Unidade De Medida'
+      FieldName = 'UniMedida_Nome'
+      Size = 15
+    end
+  end
+  object dsUnMedida: TDataSource
+    DataSet = zqUnMedida
+    Left = 264
+    Top = 241
+  end
+  object zqFornecedor: TZQuery
+    Connection = DtmPrincipal.ConexaoDB
+    SQL.Strings = (
+      'Select  Forn_cod'
+      ' from Fornecedor')
+    Params = <>
+    Left = 464
+    Top = 240
+    object zqFornecedorForn_cod: TIntegerField
+      FieldName = 'Forn_cod'
+      Required = True
+    end
+  end
+  object dsFornecedor: TDataSource
+    DataSet = zqFornecedor
+    Left = 512
+    Top = 241
+  end
+end

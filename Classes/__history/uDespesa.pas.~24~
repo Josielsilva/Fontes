@@ -1,0 +1,208 @@
+unit uDespesa;
+
+interface
+
+ uses System.Classes,
+     Vcl.Controls,
+     Vcl.ExtCtrls,
+     Vcl.Dialogs,
+     ZAbstractConnection,
+     ZConnection,
+     ZAbstractRODataset,
+     ZAbstractDataset,
+     ZDataset,
+     System.SysUtils;
+
+type
+  TDespesa = class
+  private
+    ConexaoDB:TZConnection;
+    FCodigo: Integer;
+    FTipo: Integer;
+    FDescricao: string;
+    FDataVencimento :TDateTime;
+    FValor : Double;
+    FStatus : String;
+  public
+    constructor Create(aConexao: TZConnection);
+    destructor Destroy; override;
+    function Inserir: Boolean;
+    function Atualizar: Boolean;
+    function Apagar: Boolean;
+    function Selecionar(id: Integer): Boolean;
+  published
+    property Codigo: Integer read FCodigo write FCodigo;
+    property Tipo: Integer read FTipo write FTipo;
+    property Descricao: string read FDescricao write FDescricao;
+    property DataVencimento : TDatetime read FDataVencimento write FDataVencimento ;
+    property Valor : double read FValor write FValor;
+    property Status : String read FStatus write FStatus;
+  end;
+
+implementation
+
+{ TTipoDecRec }
+
+function TDespesa.Apagar: Boolean;
+var Qry:TZQuery;
+begin
+  if MessageDlg('Apagar o Registro: '+#13+#13+
+                'Código: '+IntToStr(FCodigo)+#13+
+                'Descrição: '+FDescricao,mtConfirmation,[mbYes, mbNo],0)=mrNo then begin
+     Result:=false;
+     abort;
+  end;
+
+  try
+    Result:=true;
+    Qry:=TZQuery.Create(nil);
+    Qry.Connection:=ConexaoDB;
+    Qry.SQL.Clear;
+    Qry.SQL.Add('DELETE FROM DESPESA '+
+                ' WHERE Desp_COD=:Desp_COD ');
+    Qry.ParamByName('DESP_COD').AsInteger :=FCodigo;
+    Try
+      ConexaoDB.StartTransaction;
+      Qry.ExecSQL;
+      ConexaoDB.Commit;
+    Except
+      ConexaoDB.Rollback;
+      Result:=false;
+    End;
+
+  finally
+    if Assigned(Qry) then
+       FreeAndNil(Qry);
+  end;
+end;
+
+function TDespesa.Atualizar: Boolean;
+var Qry:TZQuery;
+begin
+  try
+    Result:=true;
+    Qry:=TZQuery.Create(nil);
+    Qry.Connection:=ConexaoDB;
+    Qry.SQL.Clear;
+    Qry.SQL.Add('UPDATE DESPESA '+
+                '   SET Desp_tipo             =:Tipo, '+
+                '    ,Desp_Descricao          =:descricao, '+
+                '    ,Desp_DataVencimento     =:DTVencimento,'+
+                '    ,Desp_Valor              =:Valor,'+
+                '    ,Desp_Status             =:Status'+
+                     ' WHERE Desp_Cod         =:Desp_Cod ');
+    Qry.ParamByName('Tipo').AsInteger           :=Self.FTipo;
+    Qry.ParamByName('descricao').AsString       :=Self.FDescricao;
+    Qry.ParamByName('DTVencimento').AsDateTime  :=Self.FDataVencimento;
+    Qry.ParamByName('Valor').AsFloat            :=Self.Fvalor;
+    Qry.ParamByName('Status').AsString          :=Self.FStatus;
+    Qry.ParamByName('Desp_Cod').AsInteger       :=Self.FCodigo;
+
+
+
+    Try
+      ConexaoDB.StartTransaction;
+      Qry.ExecSQL;
+      ConexaoDB.Commit;
+    Except
+      ConexaoDB.Rollback;
+      Result:=false;
+    End;
+
+  finally
+    if Assigned(Qry) then
+       FreeAndNil(Qry);
+  end;
+end;
+
+constructor TDespesa.Create(aConexao: TZConnection);
+begin
+  ConexaoDB:=aConexao;
+end;
+
+destructor TDespesa.Destroy;
+begin
+
+  inherited;
+end;
+
+function TDespesa.Inserir: Boolean;
+var Qry:TZQuery;
+begin
+  try
+    Result:=true;
+    Qry:=TZQuery.Create(nil);
+    Qry.Connection:=ConexaoDB;
+    Qry.SQL.Clear;
+    Qry.SQL.Add('INSERT INTO  DESPESA('+
+                              ' Desp_Tipo,'+
+                              ' Desp_Descricao,'+
+                              ' Desp_DataVencimento,'+
+                              ' Desp_Valor,'+
+                              ' Desp_Status)'+
+                              ' VALUES'+
+                              '(:Desp_Tipo, '+
+                              ' :Desp_Descricao, '+
+                              ' :Desp_DtVencimento,'+
+                              ' :Desp_Valor,'+
+                              ' :Desp_Status)');
+
+
+    Qry.ParamByName('Desp_Tipo').AsInteger          :=Self.FTipo;
+    Qry.ParamByName('Desp_Descricao').AsString      :=Self.FDescricao;
+    Qry.ParamByName('Desp_DtVencimento').AsDateTime :=Self.FDataVencimento;
+    Qry.ParamByName('Desp_Valor').AsFloat           :=Self.FValor;
+    Qry.ParamByName('Desp_Status').AsString         :=Self.FStatus;
+
+    Try
+      ConexaoDB.StartTransaction;
+      Qry.ExecSQL;
+      ConexaoDB.Commit;
+    Except
+      ConexaoDB.Rollback;
+      Result:=false;
+    End;
+
+  finally
+    if Assigned(Qry) then
+       FreeAndNil(Qry);
+  end;
+end;
+
+function TDespesa.Selecionar(id: Integer): Boolean;
+var Qry:TZQuery;
+begin
+  try
+    Result:=true;
+    Qry:=TZQuery.Create(nil);
+    Qry.Connection:=ConexaoDB;
+    Qry.SQL.Clear;
+    Qry.SQL.Add('SELECT DESP_COD,'+
+                '       Desp_Tipo, '+
+                '       Desp_Descricao, '+
+                '       Desp_DataVencimento,'+
+                '       Desp_Valor,'+
+                '       Desp_Status'+
+                '  FROM DESPESA '+
+                ' WHERE Desp_Cod=:Desp_Cod');
+    Qry.ParamByName('Desp_Cod').AsInteger:=id;
+    Try
+      Qry.Open;
+
+      Self.FTipo           := Qry.FieldByName('Desp_Tipo').AsInteger;
+      Self.FDescricao      := Qry.FieldByName('Desp_Descricao').AsString;
+      Self.FDataVencimento := Qry.FieldByName('Desp_DataVencimento').AsDateTime;
+      Self.FValor          := Qry.FieldByName('Desp_Valor').AsFloat;
+      Self.FStatus         := Qry.FieldByName('Desp_Status').AsString;
+      Self.FCodigo         := Qry.FieldByName('Desp_Cod').AsInteger;
+    Except
+      Result:=false;
+    End;
+
+  finally
+    if Assigned(Qry) then
+       FreeAndNil(Qry);
+  end;
+end;
+
+end.

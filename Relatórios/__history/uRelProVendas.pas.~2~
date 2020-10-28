@@ -1,0 +1,130 @@
+unit uRelProVendas;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, RLReport, RLFilters, RLPDFFilter,
+  Data.DB, ZDataset, RLXLSFilter,
+  RLXLSXFilter, Vcl.Imaging.jpeg, Vcl.DBCtrls, ZAbstractRODataset,
+  ZAbstractDataset, Vcl.StdCtrls;
+
+type
+  TfrmRelProVendas = class(TForm)
+    Relatorio: TRLReport;
+    Cabecalho: TRLBand;
+    RLLabel1: TRLLabel;
+    RLDraw1: TRLDraw;
+    RLPDFFilter1: TRLPDFFilter;
+    QryVenda: TZQuery;
+    dtsVenda: TDataSource;
+    Rodape: TRLBand;
+    RLSystemInfo3: TRLSystemInfo;
+    RLLabel3: TRLLabel;
+    RLSystemInfo2: TRLSystemInfo;
+    RLLabel2: TRLLabel;
+    RLSystemInfo1: TRLSystemInfo;
+    RLDraw2: TRLDraw;
+    RLXLSXFilter1: TRLXLSXFilter;
+    RLXLSFilter1: TRLXLSFilter;
+    RLGroup1: TRLGroup;
+    RLBand2: TRLBand;
+    RLDBText5: TRLDBText;
+    RLLabel8: TRLLabel;
+    RegistrosDB: TRLBand;
+    RLDBText2: TRLDBText;
+    RLDBText3: TRLDBText;
+    RLBand4: TRLBand;
+    RLDBResult1: TRLDBResult;
+    RLLabel6: TRLLabel;
+    dsVendaItens: TDataSource;
+    RLLabel5: TRLLabel;
+    RLLabel7: TRLLabel;
+    RLSubDetail1: TRLSubDetail;
+    RLBand3: TRLBand;
+    RLLabel4: TRLLabel;
+    RLBand1: TRLBand;
+    RLDBText1: TRLDBText;
+    RLDBText4: TRLDBText;
+    RLLabel9: TRLLabel;
+    RLDBText6: TRLDBText;
+    RLDBText7: TRLDBText;
+    RLDBText8: TRLDBText;
+    RLLabel10: TRLLabel;
+    RLLabel11: TRLLabel;
+    RLLabel12: TRLLabel;
+    RLDraw3: TRLDraw;
+    RLDraw4: TRLDraw;
+    QryVendaOrc_OrcId: TIntegerField;
+    QryVendaOrc_CodCli: TIntegerField;
+    QryVendaCli_Nome: TWideStringField;
+    QryVendaOrc_TotalOrcamento: TFloatField;
+    RLBand5: TRLBand;
+    QryVendaOrc_DataOrcamento: TDateTimeField;
+    RLBand6: TRLBand;
+    RLPanelcabecalho: TRLPanel;
+    RLImage1: TRLImage;
+    RLLCabecalho: TRLLabel;
+    RLLabel13: TRLLabel;
+    RLDBText9: TRLDBText;
+    RLLabel14: TRLLabel;
+    RLDBText10: TRLDBText;
+    QryVendacli_Telefone1: TWideStringField;
+    QryVendacli_Email: TWideStringField;
+    RLLabel17: TRLLabel;
+    RLDBText13: TRLDBText;
+    RLDBText14: TRLDBText;
+    RLDBText15: TRLDBText;
+    RLLabel18: TRLLabel;
+    RLLabel19: TRLLabel;
+    QryVendaItens: TZQuery;
+    QryVendaItensORCITENS_OPERACAO: TWideStringField;
+    QryVendaItensORCITENS_ORCID: TIntegerField;
+    QryVendaItensORCITENS_PRODID: TIntegerField;
+    QryVendaItensORCITENS_VALORUNITARIO: TFloatField;
+    QryVendaItensORCITENS_QUANTIDADE: TIntegerField;
+    QryVendaItensORCITENS_DESC: TFloatField;
+    QryVendaItensORCITENS_HORA: TFloatField;
+    QryVendaItensORCITENS_PINTURA: TFloatField;
+    QryVendaItensORCITENS_TOTALPRODUTO: TFloatField;
+    RLDBText11: TRLDBText;
+    RLLabel15: TRLLabel;
+    DBMemo1: TDBMemo;
+    QryVendaOrc_obs: TWideStringField;
+    procedure FormDestroy(Sender: TObject);
+    procedure dtsVendaDataChange(Sender: TObject; Field: TField);
+    procedure dsVendaItensDataChange(Sender: TObject; Field: TField);
+
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmRelProVendas: TfrmRelProVendas;
+
+implementation
+
+{$R *.dfm}
+
+
+
+pprocedure TfrmRelProVendas.dtsVendaDataChange(Sender: TObject; Field: TField);
+begin
+
+end;
+
+rocedure TfrmRelProVendas.FormDestroy(Sender: TObject);
+begin
+  QryOrcamento.Close;
+  QryOrcamentoItens.Close;
+end;
+
+Eprocedure TfrmRelProVendas.dsVendaItensDataChange(Sender: TObject;
+  Field: TField);
+begin
+
+end;
+
+nd.

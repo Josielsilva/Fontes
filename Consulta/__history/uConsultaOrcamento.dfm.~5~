@@ -1,0 +1,44 @@
+inherited frmCunsultaOrcamento: TfrmCunsultaOrcamento
+  Caption = 'frmCunsultaOrcamento'
+  ExplicitWidth = 747
+  ExplicitHeight = 320
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited Panel1: TPanel
+    ExplicitWidth = 741
+    inherited mskPesquisa: TMaskEdit
+      ExplicitWidth = 739
+    end
+  end
+  inherited Panel2: TPanel
+    ExplicitWidth = 741
+    ExplicitHeight = 207
+  end
+  inherited Panel3: TPanel
+    inherited btnFechar: TBitBtn
+      ExplicitLeft = 651
+    end
+  end
+  inherited QryListagem: TZQuery
+    SQL.Strings = (
+      'SELECT '
+      '  ORC.Orc_OrcId,'
+      '  ORC.Orc_Status,'
+      '  orc.Orc_CodCli,'
+      '  cli.Cli_Nome,'
+      '  orc.Orc_DataOrcamento,'
+      '  orc.Orc_TotalOrcamento,'
+      '  Cli_Email,'
+      '  cli.Cli_Telefone1'
+      ' '
+      
+        ' FROM ORCAMENTO ORC inner join  Clientes Cli on cli.Cli_Cod=orc.' +
+        'Orc_CodCli')
+    Left = 365
+    Top = 185
+  end
+  inherited DtsListagem: TDataSource
+    Left = 437
+    Top = 193
+  end
+end

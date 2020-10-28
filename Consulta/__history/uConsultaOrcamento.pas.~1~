@@ -1,0 +1,26 @@
+unit uConsultaOrcamento;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uTelaHerancaConsulta, Data.DB,
+  ZAbstractRODataset, ZAbstractDataset, ZDataset, Vcl.StdCtrls, Vcl.Buttons,
+  Vcl.Grids, Vcl.DBGrids, Vcl.Mask, Vcl.ExtCtrls;
+
+type
+  TfrmTelaHerancaConsulta1 = class(TfrmTelaHerancaConsulta)
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmTelaHerancaConsulta1: TfrmTelaHerancaConsulta1;
+
+implementation
+
+{$R *.dfm}
+
+end.

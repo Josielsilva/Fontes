@@ -1,0 +1,9 @@
+unit uEnun;
+
+interface
+
+type
+TVeiculo = (Carro,Moto,Vans,Caminhao,Onibus,outros);
+implementation
+
+end.

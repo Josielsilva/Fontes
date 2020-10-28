@@ -1,0 +1,51 @@
+unit uClientes;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UFrmPadrao, Vcl.Buttons, Vcl.ExtCtrls,
+  Vcl.Mask, Vcl.DBCtrls, Vcl.StdCtrls, Data.DB, Vcl.Grids, Vcl.DBGrids,
+  Vcl.ComCtrls;
+
+type
+  TfrmCliente = class(TfrmPadrao)
+    SpeedButton6: TSpeedButton;
+    DBEdit1: TDBEdit;
+    DBEdit10: TDBEdit;
+    DBEdit12: TDBEdit;
+    DBEdit15: TDBEdit;
+    DBEdit2: TDBEdit;
+    DBEdit3: TDBEdit;
+    DBEdit4: TDBEdit;
+    DBEdit5: TDBEdit;
+    DBEdit6: TDBEdit;
+    DBEdit7: TDBEdit;
+    DBEdit8: TDBEdit;
+    Edit1: TEdit;
+    Label1: TLabel;
+    Label10: TLabel;
+    Label12: TLabel;
+    Label16: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
+    Label8: TLabel;
+    Label9: TLabel;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmCliente: TfrmCliente;
+
+implementation
+
+{$R *.dfm}
+
+end.

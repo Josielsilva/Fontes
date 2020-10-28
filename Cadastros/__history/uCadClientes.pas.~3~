@@ -1,0 +1,197 @@
+unit uCadClientes;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UFrmPadrao, Vcl.Buttons, Vcl.ExtCtrls,
+  Vcl.Mask, Vcl.DBCtrls, Vcl.StdCtrls, Data.DB, Vcl.DBGrids,
+  Vcl.ComCtrls,uDtmPrincipal, ZAbstractRODataset, ZDataset,uCadCliente,
+  RxToolEdit,uEnun, RxMemDS, ZAbstractDataset, Vcl.Grids;
+
+type
+  TfrmCadCliente = class(TfrmPadrao)
+    lbeCodigo: TLabeledEdit;
+    lblNome: TLabeledEdit;
+    lblNumero: TLabeledEdit;
+    lblEndereco: TLabeledEdit;
+    lblBairro: TLabeledEdit;
+    lblCidade: TLabeledEdit;
+    lblUF: TLabeledEdit;
+    lblEmail: TLabeledEdit;
+    edtCEP: TMaskEdit;
+    Label1: TLabel;
+    edtTelefone: TMaskEdit;
+    Label2: TLabel;
+    edtTelefoneCel: TMaskEdit;
+    Label3: TLabel;
+    zqPrincipalCLI_COD: TIntegerField;
+    zqPrincipalCLI_NOME: TWideStringField;
+    zqPrincipalCLI_TELEFONE1: TWideStringField;
+    zqPrincipalCLI_TELEFONE2: TWideStringField;
+    zqPrincipalCLI_ID_VEICULO: TIntegerField;
+    zqPrincipalCLI_LOGRADOURO: TWideStringField;
+    zqPrincipalCLI_BAIRRO: TWideStringField;
+    zqPrincipalCLI_CEP: TWideStringField;
+    zqPrincipalCLI_UF: TWideStringField;
+    zqPrincipalCLI_EMAIL: TWideStringField;
+    zqPrincipalCLI_CODVEICULO: TIntegerField;
+    zqPrincipalCLI_NUMERO: TIntegerField;
+    edtDataNascimento: TDateEdit;
+    Label4: TLabel;
+    zqPrincipalCLI_CIDADE: TWideStringField;
+    RxVeiculos: TRxMemoryData;
+    DsVeiculos: TDataSource;
+    zqAux: TZQuery;
+    RxVeiculosveic_cod: TIntegerField;
+    RxVeiculosVeic_marca_modelo: TStringField;
+    RxVeiculosVeic_cli_cod: TIntegerField;
+    DBGrid1: TDBGrid;
+    zqPrincipalCLI_DATANASCIMENTO: TDateTimeField;
+    procedure FormCreate(Sender: TObject);
+    procedure btnInserirClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure btnAlterarClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure RxVeiculosFilterRecord(DataSet: TDataSet; var Accept: Boolean);
+    procedure dbgPadraoCellClick(Column: TColumn);
+  private
+   vCliente:TcadCliente;
+    function Apagar:Boolean; override;
+    function Gravar(EstadoDoCadastro:TEstadoCadastro):Boolean; override;
+
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmCadCliente: TfrmCadCliente;
+
+implementation
+
+{$R *.dfm}
+
+function TfrmCadCliente.Apagar: Boolean;
+begin
+   if vCliente.Selecionar(zqPrincipal.FieldByName('Cli_Cod').AsInteger) then begin
+     Result:=vCliente.Apagar;
+  end;
+end;
+
+procedure TfrmCadCliente.btnAlterarClick(Sender: TObject);
+begin
+
+  if vCliente.Selecionar(zqPrincipal.FieldByName('cli_cod').AsInteger) then
+  begin
+     lbeCodigo.Text      :=IntToStr(vCliente.codigo);
+     lblNome.Text        :=vCliente.nome;
+     edtCEP.Text         :=vCliente.cep;
+     lblEndereco.Text    :=vCliente.endereco;
+     lblBairro.Text      :=vCliente.bairro;
+     lblCidade.Text      :=vCliente.cidade;
+     edtTelefone.Text    :=vCliente.telefone1;
+     edtTelefoneCel.Text := vCliente.telefone2;
+     lblEmail.Text       :=vCliente.email;
+
+  end
+  else begin
+    btnCancelar.Click;
+    Abort;
+  end;
+
+ inherited;
+
+end;
+
+procedure TfrmCadCliente.btnInserirClick(Sender: TObject);
+begin
+  inherited;
+  edtDataNascimento.Date:=Date;
+  lblNome.SetFocus;
+end;
+
+procedure TfrmCadCliente.dbgPadraoCellClick(Column: TColumn);
+begin
+  inherited;
+
+  RxVeiculos.Filtered := False;
+  RxVeiculos.Filter := 'VEIC_COD';
+  RxVeiculos.Filtered := True;
+end;
+
+procedure TfrmCadCliente.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+    inherited;
+  if Assigned(vCliente) then
+     FreeAndNil(vCliente);
+
+  zpPrincipal.free;
+  RxVeiculos.active := false;
+end;
+
+procedure TfrmCadCliente.FormCreate(Sender: TObject);
+begin
+  inherited;
+   vCliente:=TcadCliente.Create(dtmPrincipal.ConexaoDB);
+   IndiceAtual := 'Cli_Nome';
+end;
+
+procedure TfrmCadCliente.FormShow(Sender: TObject);
+begin
+  inherited;
+
+  with zqAux do
+  begin
+    SQL.Clear;
+    SQL.Add('select veic_cli_cod,veic_cod,veic_Marca_Modelo from veiculos');
+    Open;
+    //RxVeiculos.LoadFromDataSet(zqAux,0,lmAppend);
+    RxVeiculos.Active := True;
+    while not eof  do
+    begin
+      RxVeiculos.Append;
+      RxVeiculos.FieldByname('Veic_cod').AsInteger := FieldByName('Veic_Cod').AsInteger;
+      RxVeiculos.FieldByname('Veic_Marca_Modelo').AsString := FieldByName('veic_Marca_Modelo').AsString;
+      RxVeiculos.FieldByname('veic_cli_cod').AsInteger := FieldByName('veic_cli_cod').AsInteger;
+      RxVeiculos.Post;
+      Next;
+    end;
+    Close;
+
+  end;
+end;
+
+function TfrmCadCliente.Gravar(EstadoDoCadastro: TEstadoCadastro): Boolean;
+begin
+  if lbeCodigo.Text<>EmptyStr then
+     vCliente.codigo:=StrToInt(lbeCodigo.Text)
+  else
+     vCliente.codigo:=0;
+  vCliente.nome           :=lblNome.Text;
+  vCliente.cep            :=edtCEP.Text;
+  vCliente.endereco       :=lblEndereco.Text;
+  vCliente.bairro         :=lblBairro.Text;
+  vCliente.cidade         :=lblCidade.Text;
+  vCliente.telefone1      :=edtTelefone.Text;
+  vCliente.telefone2      :=edtTelefoneCel.Text;
+  vCliente.email        :=lblEmail.Text;
+  vCliente.dataNascimento :=edtDataNascimento.Date;
+
+  if (EstadoDoCadastro=ecInserir) then
+     Result:=vCliente.Inserir
+  else if (EstadoDoCadastro=ecAlterar) then
+     Result:=vCliente.Atualizar;
+end;
+
+procedure TfrmCadCliente.RxVeiculosFilterRecord(DataSet: TDataSet;
+  var Accept: Boolean);
+begin
+  inherited;
+   Accept := zqPrincipal.FieldByName('cli_cod').AsInteger
+            = RxVeiculos.FieldByName('veic_cli_cod').AsInteger;
+end;
+
+end.
+
+

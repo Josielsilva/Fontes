@@ -1,0 +1,181 @@
+unit uUniMedida;
+
+interface
+ uses System.Classes,
+     Vcl.Controls,
+     Vcl.ExtCtrls,
+     Vcl.Dialogs,
+     ZAbstractConnection,
+     ZConnection,
+     ZAbstractRODataset,
+     ZAbstractDataset,
+     ZDataset,
+     System.SysUtils;
+type
+  TUnidadeMedida = class
+  private
+    ConexaoDB:TZConnection;
+    F_Grupo_cod: Integer;
+    F_Grupo_Nome: string;
+    F_Grupo_Descricao: string;
+  public
+    constructor Create(aConexao: TZConnection);
+    destructor Destroy; override;
+    function Inserir: Boolean;
+    function Atualizar: Boolean;
+    function Apagar: Boolean;
+    function Selecionar(id: Integer): Boolean;
+  published
+    property Grupo_cod: Integer read F_Grupo_cod write F_Grupo_cod;
+    property Grupo_Nome: string read F_Grupo_Nome write F_Grupo_Nome;
+    property Grupo_Descricao: string read F_Grupo_Descricao write F_Grupo_Descricao;
+  end;
+
+implementation
+
+{ TCategoria }
+
+{$region 'Constructor and Destructor'}
+constructor TUnidadeMedida.Create(aConexao:TZConnection);
+begin
+  ConexaoDB:=aConexao;
+end;
+
+destructor TGrupo.Destroy;
+begin
+
+  inherited;
+end;
+{$endRegion}
+
+{$region 'CRUD'}
+function TUnidadeMedida.Apagar: Boolean;
+var Qry:TZQuery;
+begin
+  if MessageDlg('Apagar o Registro: '+#13+#13+
+                'Código: '+IntToStr(F_GRUPO_COD)+#13+
+                'Descrição: '+F_Grupo_nome,mtConfirmation,[mbYes, mbNo],0)=mrNo then begin
+     Result:=false;
+     abort;
+  end;
+
+  try
+    Result:=true;
+    Qry:=TZQuery.Create(nil);
+    Qry.Connection:=ConexaoDB;
+    Qry.SQL.Clear;
+    Qry.SQL.Add('DELETE FROM UNIDADE_DE_MEDIDA '+
+                ' WHERE UniMedida_Cod=:UniMedida_Cod ');
+    Qry.ParamByName('UniMedida_Cod').AsInteger :=F_Grupo_cod;
+    Try
+      ConexaoDB.StartTransaction;
+      Qry.ExecSQL;
+      ConexaoDB.Commit;
+    Except
+      ConexaoDB.Rollback;
+      Result:=false;
+    End;
+
+  finally
+    if Assigned(Qry) then
+       FreeAndNil(Qry);
+  end;
+end;
+
+function TUnidadeMedida.Atualizar: Boolean;
+var Qry:TZQuery;
+begin
+  try
+    Result:=true;
+    Qry:=TZQuery.Create(nil);
+    Qry.Connection:=ConexaoDB;
+    Qry.SQL.Clear;
+    Qry.SQL.Add('UPDATE GRUPO '+
+                '   SET UniMedida_Nome          =:nome '+
+                '       ,UniMedida_Descricao   =:descricao '+
+                       ' WHERE Grupo_Cod    =:Grupo_Cod ');
+    Qry.ParamByName('Grupo_Cod').AsInteger       :=Self.F_Grupo_Cod;
+    Qry.ParamByName('nome').AsString           :=Self.Grupo_nome;
+    Qry.ParamByName('descricao').AsString        :=Self.Grupo_descricao;
+
+
+
+    Try
+      ConexaoDB.StartTransaction;
+      Qry.ExecSQL;
+      ConexaoDB.Commit;
+    Except
+      ConexaoDB.Rollback;
+      Result:=false;
+    End;
+
+  finally
+    if Assigned(Qry) then
+       FreeAndNil(Qry);
+  end;
+end;
+
+function TUnidadeMedida.Inserir: Boolean;
+var Qry:TZQuery;
+begin
+  try
+    Result:=true;
+    Qry:=TZQuery.Create(nil);
+    Qry.Connection:=ConexaoDB;
+    Qry.SQL.Clear;
+    Qry.SQL.Add('INSERT INTO Grupo (UniMedida_Nome, '+
+                '                      UniMedida_Descricao)' +
+                ' VALUES              (:nome, '+
+                '                      :descricao)') ;
+
+    Qry.ParamByName('nome'     ).AsString     :=Self.F_Grupo_nome;
+    Qry.ParamByName('descricao').AsString     :=Self.F_Grupo_descricao;
+
+
+    Try
+      ConexaoDB.StartTransaction;
+      Qry.ExecSQL;
+      ConexaoDB.Commit;
+    Except
+      ConexaoDB.Rollback;
+      Result:=false;
+    End;
+
+  finally
+    if Assigned(Qry) then
+       FreeAndNil(Qry);
+  end;
+end;
+
+function TUnidadeMedida.Selecionar(id: Integer): Boolean;
+var Qry:TZQuery;
+begin
+  try
+    Result:=true;
+    Qry:=TZQuery.Create(nil);
+    Qry.Connection:=ConexaoDB;
+    Qry.SQL.Clear;
+    Qry.SQL.Add('SELECT UniMedida_Cod,'+
+                '       UniMedida_nome, '+
+                '       UniMedida_descricao, '+
+                '  FROM UNIDADE_DE_MEDIDA '+
+                ' WHERE UniMedida_Cod=:UniMedida_Cod');
+    Qry.ParamByName('Grupo_Cod').AsInteger:=id;
+    Try
+      Qry.Open;
+
+      Self.F_Grupo_cod           := Qry.FieldByName('UniMedida_Cod').AsInteger;
+      Self.F_Grupo_Nome          := Qry.FieldByName('UniMedida_nome').AsString;
+      Self.F_Grupo_descricao     := Qry.FieldByName('UniMedida_descricao').AsString;
+    Except
+      Result:=false;
+    End;
+
+  finally
+    if Assigned(Qry) then
+       FreeAndNil(Qry);
+  end;
+end;
+{$endregion}
+
+end.

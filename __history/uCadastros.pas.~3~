@@ -1,0 +1,251 @@
+unit uCadastros;
+
+interface
+
+type
+  iPessoa = interface
+    function TipoPessoa: string;
+    ['{1DFB66BE-477F-46F5-8CBF-C5461EAA9513}']
+  end;
+
+  iVeiculo = interface
+    function Veiculo: string;
+    ['{C99A6A44-6AD7-4EE2-A578-3F2D4B842049}']
+  end;
+
+  iPecas = interface
+    ['{E3850898-03FB-4DD7-BD74-C9973BE749EA}']
+  end;
+
+  TFuncionario = class(TInterfacedObject, iPessoa)
+  private
+    function TipoPessoa: string;
+  public
+    constructor Create;
+    destructor Destroy; override;
+  end;
+
+  TCliente = class(TInterfacedObject, iPessoa)
+  private
+    FCodVeiculo: Integer;
+    FDataCadastro: TDateTime;
+    FTelefoneCel: string;
+    FNome: string;
+    FEndereco: string;
+    FTelefone: string;
+    FTipoPessoa : string;
+    function TipoPessoa: string;
+    procedure SetDataCadastro(const Value: TDateTime);
+    procedure SetEndereco(const Value: string);
+    procedure SetNome(const Value: string);
+    procedure SetTelefone(const Value: string);
+    procedure SetTelefoneCel(const Value: string);
+    procedure setTipoPessoa(const Value: String);
+  public
+    procedure Veiculo(aValue: iVeiculo);
+
+    property Nome: string read FNome write SetNome;
+    property Endereco: string read FEndereco write SetEndereco;
+    property Telefone: string read FTelefone write SetTelefone;
+    property TelefoneCel: string read FTelefoneCel write SetTelefoneCel;
+    property DataCadastro: TDateTime read FDataCadastro write SetDataCadastro;
+    constructor Create;
+    destructor Destroy; override;
+  end;
+
+  TForncedor = class(TInterfacedObject, iPessoa)
+  private
+    FCodVeiculo: Integer;
+    FNomeLoja: string;
+    FCodfornecedor: Integer;
+    FTipoFornecedor: string;
+    FRazaoSocial: string;
+    FDataCadastro: TDateTime;
+    FTelefoneCel: string;
+    FNome: string;
+    FEndereco: string;
+    FTelefone: string;
+    FNomeFantasia: string;
+    function TipoPessoa: string;
+    procedure SetCodfornecedor(const Value: Integer);
+    procedure SetDataCadastro(const Value: TDateTime);
+    procedure SetEndereco(const Value: string);
+    procedure SetNome(const Value: string);
+    procedure SetNomeFantasia(const Value: string);
+    procedure SetNomeLoja(const Value: string);
+    procedure SetRazaoSocial(const Value: string);
+    procedure SetTelefone(const Value: string);
+    procedure SetTelefoneCel(const Value: string);
+    procedure SetTipoFornecedor(const Value: string);
+  public
+    procedure Veiculo(aValue: iVeiculo);
+    property Codfornecedor: Integer read FCodfornecedor write SetCodfornecedor;
+    property Nome: string read FNome write SetNome;
+    property Endereco: string read FEndereco write SetEndereco;
+    property DataCadastro: TDateTime read FDataCadastro write SetDataCadastro;
+    property NomeLoja: string read FNomeLoja write SetNomeLoja;
+    property RazaoSocial: string read FRazaoSocial write SetRazaoSocial;
+    property NomeFantasia: string read FNomeFantasia write SetNomeFantasia;
+    property Telefone: string read FTelefone write SetTelefone;
+    property TelefoneCel: string read FTelefoneCel write SetTelefoneCel;
+    property TipoFornecedor: string read FTipoFornecedor write SetTipoFornecedor;
+    constructor Create;
+    destructor Destroy; override;
+  end;
+
+  TPecas = class(TInterfacedObject, iPecas)
+  private
+    FFornecedor: iPessoa;
+    procedure Fornecedor(aValue : Integer);
+  public
+
+  end;
+
+implementation
+
+{ TForncedor }
+
+constructor TForncedor.Create;
+begin
+
+end;
+
+destructor TForncedor.Destroy;
+begin
+
+  inherited;
+end;
+
+procedure TForncedor.SetCodfornecedor(const Value: Integer);
+begin
+  FCodfornecedor := Value;
+end;
+
+procedure TForncedor.SetDataCadastro(const Value: TDateTime);
+begin
+  FDataCadastro := Value;
+end;
+
+procedure TForncedor.SetEndereco(const Value: string);
+begin
+  FEndereco := Value;
+end;
+
+procedure TForncedor.SetNome(const Value: string);
+begin
+  FNome := Value;
+end;
+
+procedure TForncedor.SetNomeFantasia(const Value: string);
+begin
+  FNomeFantasia := Value;
+end;
+
+procedure TForncedor.SetNomeLoja(const Value: string);
+begin
+  FNomeLoja := Value;
+end;
+
+procedure TForncedor.SetRazaoSocial(const Value: string);
+begin
+  FRazaoSocial := Value;
+end;
+
+procedure TForncedor.SetTelefone(const Value: string);
+begin
+  FTelefone := Value;
+end;
+
+procedure TForncedor.SetTelefoneCel(const Value: string);
+begin
+  FTelefoneCel := Value;
+end;
+
+procedure TForncedor.SetTipoFornecedor(const Value: string);
+begin
+  FTipoFornecedor := Value;
+end;
+
+function TForncedor.TipoPessoa: string;
+begin
+   Result := FTipoFornecedor;
+end;
+
+procedure TForncedor.Veiculo(aValue: iVeiculo);
+begin
+
+end;
+
+{ TCliente }
+
+constructor TCliente.Create;
+begin
+
+end;
+
+destructor TCliente.Destroy;
+begin
+
+  inherited;
+end;
+
+procedure TCliente.SetDataCadastro(const Value: TDateTime);
+begin
+  FDataCadastro := Value;
+end;
+
+procedure TCliente.SetEndereco(const Value: string);
+begin
+  FEndereco := Value;
+end;
+
+procedure TCliente.SetNome(const Value: string);
+begin
+  FNome := Value;
+end;
+
+procedure TCliente.SetTelefone(const Value: string);
+begin
+  FTelefone := Value;
+end;
+
+procedure TCliente.SetTelefoneCel(const Value: string);
+begin
+  FTelefoneCel := Value;
+end;
+
+procedure TCliente.setTipoPessoa(const Value: String);
+begin
+ FTipoPessoa := value;
+end;
+
+function TCliente.TipoPessoa: string;
+begin
+  Result := FTipoPessoa;
+end;
+
+procedure TCliente.Veiculo(aValue: iVeiculo);
+begin
+
+end;
+
+{ TFuncionario }
+
+constructor TFuncionario.Create;
+begin
+
+end;
+
+destructor TFuncionario.Destroy;
+begin
+
+  inherited;
+end;
+
+function TFuncionario.TipoPessoa: string;
+begin
+
+end;
+
+end.
+

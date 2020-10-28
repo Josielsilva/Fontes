@@ -1,0 +1,62 @@
+unit uPrincipal;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Menus, Vcl.ExtCtrls,uClientes;
+
+type
+  TForm1 = class(TForm)
+    Panel1: TPanel;
+    Panel2: TPanel;
+    Panel3: TPanel;
+    mmPrincipal: TMainMenu;
+    Cadastros1: TMenuItem;
+    CadastrodeClientes1: TMenuItem;
+    CadastrodeFornecedores1: TMenuItem;
+    Produtos1: TMenuItem;
+    Funcionarios1: TMenuItem;
+    Acesso1: TMenuItem;
+    Sair1: TMenuItem;
+    Oramento1: TMenuItem;
+    Oramento2: TMenuItem;
+    Vendas1: TMenuItem;
+    Relatrios1: TMenuItem;
+    Oramentos1: TMenuItem;
+    N2: TMenuItem;
+    Cadastrodeclientes2: TMenuItem;
+    Cadastrodefuncionarios1: TMenuItem;
+    Cadastrodefornecedores2: TMenuItem;
+    N1: TMenuItem;
+    Cadastrodeprodutos1: TMenuItem;
+    Fechar1: TMenuItem;
+    procedure CadastrodeClientes1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm1.CadastrodeClientes1Click(Sender: TObject);
+var FCliente : TfrmCliente;
+begin
+    FCliente := TfrmCliente;
+   with FCliente do
+   begin
+    try
+     ShowModal;
+    finally
+     Free;
+    end;
+   end;
+end;
+
+end.

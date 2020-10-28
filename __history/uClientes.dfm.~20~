@@ -1,0 +1,65 @@
+inherited frmCliente: TfrmCliente
+  Caption = 'Cadastro de clientes'
+  ClientHeight = 386
+  ClientWidth = 781
+  ExplicitLeft = -28
+  ExplicitWidth = 797
+  ExplicitHeight = 425
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited Panel2: TPanel
+    Top = 345
+    Width = 781
+    ExplicitTop = 345
+    ExplicitWidth = 781
+    DesignSize = (
+      781
+      41)
+    inherited btnNavegador: TDBNavigator
+      Hints.Strings = ()
+    end
+  end
+  inherited Panel3: TPanel
+    Width = 781
+    Height = 345
+    ExplicitTop = 0
+    ExplicitWidth = 781
+    ExplicitHeight = 345
+    inherited pgcPadrao: TPageControl
+      Width = 781
+      Height = 345
+      ExplicitTop = 0
+      ExplicitWidth = 781
+      ExplicitHeight = 345
+      inherited TabSheet1: TTabSheet
+        ExplicitWidth = 773
+        ExplicitHeight = 317
+        inherited dbgPadrao: TDBGrid
+          Width = 773
+          Height = 260
+        end
+        inherited Panel1: TPanel
+          Width = 773
+          ExplicitTop = 0
+          ExplicitWidth = 773
+        end
+      end
+      inherited TabSheet2: TTabSheet
+        ExplicitWidth = 773
+        ExplicitHeight = 317
+      end
+    end
+  end
+  inherited zqPrincipal: TZQuery
+    Connection = DtmPrincipal.ConexaoDB
+    SQL.Strings = (
+      'SELECT  *     FROM CLIENTE')
+    object zqPrincipalCod_cli: TIntegerField
+      FieldName = 'Cod_cli'
+      ReadOnly = True
+    end
+    object zqPrincipalID_Veiculo: TIntegerField
+      FieldName = 'ID_Veiculo'
+    end
+  end
+end

@@ -1,0 +1,82 @@
+unit uPrincipal;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Menus, Vcl.ExtCtrls,uClientes,
+  Vcl.Imaging.jpeg,uDtmPrincipal;
+
+type
+  TForm1 = class(TForm)
+    Panel1: TPanel;
+    Panel2: TPanel;
+    Panel3: TPanel;
+    mmPrincipal: TMainMenu;
+    Cadastros1: TMenuItem;
+    CadastrodeClientes1: TMenuItem;
+    CadastrodeFornecedores1: TMenuItem;
+    Produtos1: TMenuItem;
+    Funcionarios1: TMenuItem;
+    Acesso1: TMenuItem;
+    Sair1: TMenuItem;
+    Oramento1: TMenuItem;
+    Oramento2: TMenuItem;
+    Vendas1: TMenuItem;
+    Relatrios1: TMenuItem;
+    Oramentos1: TMenuItem;
+    N2: TMenuItem;
+    Cadastrodeclientes2: TMenuItem;
+    Cadastrodefuncionarios1: TMenuItem;
+    Cadastrodefornecedores2: TMenuItem;
+    N1: TMenuItem;
+    Cadastrodeprodutos1: TMenuItem;
+    Fechar1: TMenuItem;
+    Image1: TImage;
+    procedure CadastrodeClientes1Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm1.CadastrodeClientes1Click(Sender: TObject);
+var FCliente : TfrmCliente;
+begin
+    FCliente := TfrmCliente.Create(Application);
+   with FCliente do
+   begin
+    try
+     ShowModal;
+    finally
+     Free;
+    end;
+   end;
+end;
+
+procedure TForm1.FormCreate(Sender: TObject);
+begin
+  DtmPrincipal := TDtmPrincipal.Create(self);
+  with DtmPrincipal.ConexaoDB do
+  begin
+    SQLHourGlass := False;
+    Protocol     := 'mssql';
+    LibraryLocation := 'C:\Promocar_Sistemas\ntwdblib.dll';
+    HostName   := '.\DESKTOP-QC6H348\ACRONYM';
+    Port       := 1433;
+    User       := '2jti';
+    Password   := '2jt1@s3c';
+    Database   := 'Dados_Sys';
+    Connected  := True;
+  end;
+end;
+
+end.

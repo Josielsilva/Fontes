@@ -1,0 +1,17 @@
+unit uCadastros;
+
+interface
+
+type
+
+iPessoa = interface
+
+end;
+
+TPessoas = class (InterfacedObject,iPessoa)
+
+end;
+
+implementation
+
+end.

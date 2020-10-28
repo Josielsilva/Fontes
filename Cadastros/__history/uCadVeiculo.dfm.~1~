@@ -1,0 +1,23 @@
+inherited frmPadrao2: TfrmPadrao2
+  Caption = 'Cadastro de Veiculos'
+  ExplicitWidth = 753
+  ExplicitHeight = 419
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited Panel3: TPanel
+    inherited pgcPesquisa_cadastro: TPageControl
+      inherited TabSheet1: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 24
+        ExplicitWidth = 729
+        ExplicitHeight = 270
+      end
+      inherited TabSheet2: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 24
+        ExplicitWidth = 729
+        ExplicitHeight = 270
+      end
+    end
+  end
+end

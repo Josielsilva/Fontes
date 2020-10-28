@@ -1,0 +1,66 @@
+unit uOrcamentoPorCliente;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Buttons, Vcl.Mask,
+  RxToolEdit, Vcl.ExtCtrls;
+
+type
+  TfrmOrcamentoCliente = class(TForm)
+    btnGravar: TBitBtn;
+    Panel1: TPanel;
+    edtClienteInicio: TLabeledEdit;
+    EdtClienteFim: TLabeledEdit;
+    procedure FormShow(Sender: TObject);
+    procedure btnGravarClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmOrcamentoCliente: TfrmOrcamentoCliente;
+
+implementation
+
+uses System.DateUtils,uRelProOrcPorCliente;
+
+{$R *.dfm}
+
+procedure TfrmOrcamentoCliente.btnGravarClick(Sender: TObject);
+begin
+  if StrToInt(EdtClienteInicio.text) < StrToInt(EdtClienteFim.Text) then begin
+    MessageDlg('Data Final não pode ser maior que a data inicio',mtInformation,[mbok],0);
+    EdtClienteFim.SetFocus;
+    abort;
+  end;
+
+  if (StrToInt(EdtClienteInicio.text)=0) OR (StrToInt(EdtClienteFim.Text)=0) then begin
+    MessageDlg('Data Inicial ou Final são campo obrigatório',MtInformation,[mbok],0);
+    EdtClienteInicio.SetFocus;
+    abort;
+  end;
+
+  frmRelOrcPorCliente := TfrmRelOrcPorCliente.Create(self);
+  try
+   frmRelOrcPorCliente.QryOrcamento.Close;
+   frmRelOrcPorCliente.QryOrcamento.ParamByName('ClienteIni').AsInteger := StrToInt(EdtClienteInicio.Text);
+   frmRelOrcPorCliente.QryOrcamento.ParamByName('ClienteFim').AsInteger    := StrToInt(EdtClienteFim.Text);
+   frmRelOrcPorCliente.QryOrcamento.Open;
+   frmRelOrcPorCliente.Relatorio.PreviewModal;
+  finally
+   frmRelOrcPorCliente.Release;
+  end;
+  Close;
+end;
+
+procedure TfrmOrcamentoCliente.FormShow(Sender: TObject);
+begin
+  EdtClienteInicio.Text := '1';
+  EdtClienteFim.Text    := '999999';
+end;
+
+end.

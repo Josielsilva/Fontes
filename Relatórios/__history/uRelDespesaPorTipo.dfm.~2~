@@ -1,0 +1,460 @@
+object frmRelDespesaPorTipo: TfrmRelDespesaPorTipo
+  Left = 0
+  Top = 0
+  Caption = 'Relat'#243'rio de despesa por Data'
+  ClientHeight = 839
+  ClientWidth = 825
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  OnDestroy = FormDestroy
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Relatorio: TRLReport
+    Left = 0
+    Top = 0
+    Width = 794
+    Height = 1123
+    DataSource = dtsDespesa
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clBlack
+    Font.Height = -13
+    Font.Name = 'Arial'
+    Font.Style = []
+    object Cabecalho: TRLBand
+      Left = 38
+      Top = 38
+      Width = 718
+      Height = 55
+      BandType = btHeader
+      object RLLabel1: TRLLabel
+        Left = 3
+        Top = 14
+        Width = 186
+        Height = 24
+        Caption = 'Despesa por Data'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -21
+        Font.Name = 'Arial'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object RLDraw1: TRLDraw
+        Left = 3
+        Top = 38
+        Width = 712
+        Height = 7
+        DrawKind = dkLine
+        Pen.Width = 2
+      end
+    end
+    object Rodape: TRLBand
+      Left = 38
+      Top = 220
+      Width = 718
+      Height = 36
+      BandType = btFooter
+      object RLSystemInfo3: TRLSystemInfo
+        Left = 3
+        Top = 17
+        Width = 201
+        Height = 16
+        Info = itFullDate
+        Text = ''
+      end
+      object RLLabel3: TRLLabel
+        Left = 614
+        Top = 17
+        Width = 44
+        Height = 16
+        Caption = 'P'#225'gina'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -13
+        Font.Name = 'Arial'
+        Font.Style = []
+        ParentFont = False
+      end
+      object RLSystemInfo2: TRLSystemInfo
+        Left = 671
+        Top = 17
+        Width = 11
+        Height = 16
+        Alignment = taRightJustify
+        Info = itPageNumber
+        Text = ''
+      end
+      object RLLabel2: TRLLabel
+        Left = 685
+        Top = 17
+        Width = 8
+        Height = 16
+        Caption = '/'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -13
+        Font.Name = 'Arial'
+        Font.Style = []
+        ParentFont = False
+      end
+      object RLSystemInfo1: TRLSystemInfo
+        Left = 603
+        Top = 17
+        Width = 112
+        Height = 16
+        Alignment = taRightJustify
+        Info = itLastPageNumber
+        Text = ''
+      end
+      object RLDraw2: TRLDraw
+        Left = 3
+        Top = 5
+        Width = 712
+        Height = 8
+        DrawKind = dkLine
+        Pen.Width = 2
+      end
+    end
+    object RLGroup1: TRLGroup
+      Left = 38
+      Top = 93
+      Width = 718
+      Height = 100
+      DataFields = 'Desp_dataVencimento'
+      Degrade.OppositeColor = clSilver
+      FooterMeasuring = fmBeforeDetail
+      object RLBand2: TRLBand
+        Left = 0
+        Top = 0
+        Width = 718
+        Height = 25
+        BandType = btHeader
+        Color = clSilver
+        ParentColor = False
+        Transparent = False
+        object RLDBText5: TRLDBText
+          Left = -30
+          Top = 5
+          Width = 146
+          Height = 16
+          Alignment = taRightJustify
+          DataField = 'Desp_dataVencimento'
+          DataSource = dtsDespesa
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          ParentFont = False
+          Text = ''
+          Transparent = False
+        end
+        object RLLabel8: TRLLabel
+          Left = 3
+          Top = 5
+          Width = 37
+          Height = 16
+          Caption = 'Data:'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          ParentFont = False
+          Transparent = False
+        end
+      end
+      object RegistrosDB: TRLBand
+        Left = 0
+        Top = 46
+        Width = 718
+        Height = 20
+        object RLDBText1: TRLDBText
+          Left = 9
+          Top = 1
+          Width = 64
+          Height = 16
+          DataField = 'Desp_Cod'
+          DataSource = dtsDespesa
+          Text = ''
+        end
+        object RLDBText2: TRLDBText
+          Left = 105
+          Top = 1
+          Width = 65
+          Height = 16
+          DataField = 'Desp_Tipo'
+          DataSource = dtsDespesa
+          Text = ''
+        end
+        object RLDBText3: TRLDBText
+          Left = 644
+          Top = 1
+          Width = 71
+          Height = 16
+          Alignment = taRightJustify
+          DataField = 'Desp_Valor'
+          DataSource = dtsDespesa
+          Text = ''
+        end
+        object RLDBText4: TRLDBText
+          Left = 190
+          Top = 3
+          Width = 99
+          Height = 16
+          DataField = 'Desp_Descricao'
+          DataSource = dtsDespesa
+          Text = ''
+        end
+        object RLDBText6: TRLDBText
+          Left = 465
+          Top = 3
+          Width = 79
+          Height = 16
+          DataField = 'Desp_Status'
+          DataSource = dtsDespesa
+          Text = ''
+        end
+      end
+      object RLBand1: TRLBand
+        Left = 0
+        Top = 66
+        Width = 718
+        Height = 23
+        BandType = btSummary
+        Color = clWhite
+        ParentColor = False
+        Transparent = False
+        object RLDBResult2: TRLDBResult
+          Left = 605
+          Top = 3
+          Width = 110
+          Height = 16
+          Alignment = taRightJustify
+          DataField = 'Desp_Valor'
+          DataSource = dtsDespesa
+          Info = riSum
+          Text = ''
+          Transparent = False
+        end
+        object RLLabel10: TRLLabel
+          Left = 562
+          Top = 3
+          Width = 40
+          Height = 16
+          Caption = 'Total:'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          ParentFont = False
+          Transparent = False
+        end
+      end
+      object RLBand3: TRLBand
+        Left = 0
+        Top = 25
+        Width = 718
+        Height = 21
+        BandType = btColumnHeader
+        Color = clInfoBk
+        ParentColor = False
+        Transparent = False
+        object RLLabel4: TRLLabel
+          Left = 9
+          Top = 0
+          Width = 49
+          Height = 16
+          Caption = 'C'#243'digo'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          ParentFont = False
+          Transparent = False
+        end
+        object RLLabel5: TRLLabel
+          Left = 105
+          Top = 0
+          Width = 32
+          Height = 16
+          Caption = 'Tipo'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          ParentFont = False
+          Transparent = False
+        end
+        object RLLabel7: TRLLabel
+          Left = 604
+          Top = 0
+          Width = 114
+          Height = 16
+          Caption = 'Valor da despesa'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          ParentFont = False
+          Transparent = False
+        end
+        object RLLabel9: TRLLabel
+          Left = 189
+          Top = 2
+          Width = 66
+          Height = 16
+          Caption = 'Descri'#231#227'o'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          ParentFont = False
+          Transparent = False
+        end
+        object RLLabel11: TRLLabel
+          Left = 465
+          Top = 2
+          Width = 43
+          Height = 16
+          Caption = 'Status'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          ParentFont = False
+          Transparent = False
+        end
+      end
+    end
+    object RLBand4: TRLBand
+      Left = 38
+      Top = 193
+      Width = 718
+      Height = 27
+      BandType = btSummary
+      object RLDBResult1: TRLDBResult
+        Left = 605
+        Top = 8
+        Width = 110
+        Height = 16
+        Alignment = taRightJustify
+        DataField = 'Desp_Valor'
+        DataSource = dtsDespesa
+        Info = riSum
+        Text = ''
+        Transparent = False
+      end
+      object RLLabel6: TRLLabel
+        Left = 519
+        Top = 6
+        Width = 79
+        Height = 16
+        Caption = 'Total Geral:'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -13
+        Font.Name = 'Arial'
+        Font.Style = [fsBold]
+        ParentFont = False
+        Transparent = False
+      end
+    end
+  end
+  object RLPDFFilter1: TRLPDFFilter
+    DocumentInfo.Creator = 
+      'FortesReport Community Edition v4.0 \251 Copyright '#169' 1999-2016 F' +
+      'ortes Inform'#225'tica'
+    FileName = 'C:\Users\VIRTUAL\Documents\Teste.pdf'
+    DisplayName = 'Documento PDF'
+    Left = 88
+    Top = 320
+  end
+  object QryDespesa: TZQuery
+    Connection = DtmPrincipal.ConexaoDB
+    SQL.Strings = (
+      'SELECT Desp_Cod'
+      '      ,Desp_Tipo'
+      '      ,Desp_Descricao'
+      '      ,Desp_dataVencimento'
+      '      ,Desp_Valor'
+      '      ,Desp_Status'
+      '  FROM DESPESA DESP'
+      ''
+      '   WHERE DESP.DESP_Tipo BETWEEN :TipoInicio And :TipoFim'
+      #9' ORDER BY DESP.DESP_Tipo'
+      ''
+      '')
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'TipoInicio'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'TipoFim'
+        ParamType = ptUnknown
+      end>
+    Left = 520
+    Top = 432
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'TipoInicio'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'TipoFim'
+        ParamType = ptUnknown
+      end>
+    object QryDespesaDesp_Cod: TIntegerField
+      FieldName = 'Desp_Cod'
+      ReadOnly = True
+    end
+    object QryDespesaDesp_Tipo: TIntegerField
+      FieldName = 'Desp_Tipo'
+    end
+    object QryDespesaDesp_Descricao: TWideStringField
+      FieldName = 'Desp_Descricao'
+      Size = 100
+    end
+    object QryDespesaDesp_dataVencimento: TDateTimeField
+      FieldName = 'Desp_dataVencimento'
+    end
+    object QryDespesaDesp_Valor: TFloatField
+      FieldName = 'Desp_Valor'
+    end
+    object QryDespesaDesp_Status: TWideStringField
+      FieldName = 'Desp_Status'
+      Size = 10
+    end
+  end
+  object dtsDespesa: TDataSource
+    DataSet = QryDespesa
+    Left = 600
+    Top = 432
+  end
+  object RLXLSXFilter1: TRLXLSXFilter
+    DisplayName = 'Planilha Excel'
+    Left = 88
+    Top = 368
+  end
+  object RLXLSFilter1: TRLXLSFilter
+    DisplayName = 'Planilha Excel 97-2013'
+    Left = 88
+    Top = 424
+  end
+end

@@ -1,0 +1,178 @@
+object DtmOrcamentos: TDtmOrcamentos
+  OldCreateOrder = False
+  OnCreate = DataModuleCreate
+  OnDestroy = DataModuleDestroy
+  Height = 248
+  Width = 451
+  object QryCliente: TZQuery
+    Connection = DtmPrincipal.ConexaoDB
+    AutoCalcFields = False
+    SQL.Strings = (
+      'select Cli_Cod,'
+      '          Cli_Nome'
+      '  from clientes')
+    Params = <>
+    Left = 76
+    Top = 32
+    object QryClienteCli_Cod: TIntegerField
+      FieldName = 'Cli_Cod'
+      ReadOnly = True
+    end
+    object QryClienteCli_Nome: TWideStringField
+      FieldName = 'Cli_Nome'
+      Size = 50
+    end
+  end
+  object QryProduto: TZQuery
+    Connection = DtmPrincipal.ConexaoDB
+    SQL.Strings = (
+      'SELECT Prod_Cod,'
+      #9'   Prod_Nome,'
+      #9'   prod_ValorUnit,'
+      #9'   Prod_Qtde'
+      '  FROM produtos'
+      ''
+      '')
+    Params = <>
+    Left = 76
+    Top = 97
+    object QryProdutoProd_Cod: TIntegerField
+      FieldName = 'Prod_Cod'
+      ReadOnly = True
+    end
+    object QryProdutoProd_Nome: TWideStringField
+      FieldName = 'Prod_Nome'
+      Size = 15
+    end
+    object QryProdutoprod_ValorUnit: TFloatField
+      FieldName = 'prod_ValorUnit'
+    end
+    object QryProdutoProd_Qtde: TIntegerField
+      FieldName = 'Prod_Qtde'
+    end
+  end
+  object dtsProduto: TDataSource
+    DataSet = QryProduto
+    Left = 140
+    Top = 97
+  end
+  object dtsCliente: TDataSource
+    DataSet = QryCliente
+    Left = 140
+    Top = 32
+  end
+  object cdsItensOrcamento1: TClientDataSet
+    Aggregates = <>
+    ObjectView = False
+    Params = <>
+    Left = 232
+    Top = 32
+    object cdsItensOrcamento1OrcItens_prodId: TSmallintField
+      FieldName = 'OrcItens_prodId'
+    end
+    object cdsItensOrcamento1Prod_Nome: TStringField
+      FieldName = 'Prod_Nome'
+      Size = 50
+    end
+    object cdsItensOrcamento1OrcItens_Quantidade: TFloatField
+      FieldName = 'OrcItens_Quantidade'
+    end
+    object cdsItensOrcamento1OrcItens_ValorUnitario: TFloatField
+      FieldName = 'OrcItens_ValorUnitario'
+    end
+    object cdsItensOrcamento1OrcItens_TotalProduto2: TFloatField
+      FieldName = 'OrcItens_TotalProduto'
+    end
+    object cdsItensOrcamento1OrcItens_TotalOrcamento: TAggregateField
+      FieldName = 'OrcItens_TotalOrcamento'
+      DisplayName = ''
+      Expression = 'SUM(OrcItens_TotalProduto)'
+    end
+  end
+  object dtsItensOrcamento: TDataSource
+    DataSet = cdsItensOrcamento
+    Left = 328
+    Top = 40
+  end
+  object cdsItensOrcamento: TRxMemoryData
+    FieldDefs = <>
+    Left = 248
+    Top = 104
+    object cdsItensOrcamentoOrcItens_prodId: TIntegerField
+      FieldName = 'OrcItens_prodId'
+    end
+    object cdsItensOrcamentoProd_Nome: TStringField
+      FieldName = 'Prod_Nome'
+      Size = 50
+    end
+    object cdsItensOrcamentoOrcItens_Quantidade: TFloatField
+      FieldName = 'OrcItens_Quantidade'
+    end
+    object cdsItensOrcamentoOrcItens_ValorUnitario: TFloatField
+      FieldName = 'OrcItens_ValorUnitario'
+    end
+    object cdsItensOrcamentoOrcItens_TotalProduto: TFloatField
+      FieldName = 'OrcItens_TotalProduto'
+    end
+    object cdsItensOrcamentoOrcItens_TotalOrcamento: TFloatField
+      FieldKind = fkCalculated
+      FieldName = 'OrcItens_TotalOrcamento'
+      Calculated = True
+    end
+    object cdsItensOrcamentoOrcItens_operacao: TStringField
+      FieldName = 'OrcItens_operacao'
+    end
+    object cdsItensOrcamentoOrcItens_desc: TFloatField
+      FieldName = 'OrcItens_desc'
+    end
+    object cdsItensOrcamentoOrcItens_Hora: TFloatField
+      FieldName = 'OrcItens_Hora'
+    end
+    object cdsItensOrcamentoOrcItens_Pintura: TFloatField
+      FieldName = 'OrcItens_Pintura'
+    end
+  end
+  object zqVeiculo: TZQuery
+    Connection = DtmPrincipal.ConexaoDB
+    AutoCalcFields = False
+    SQL.Strings = (
+      'Select  veic_cod,Veic_marca_Modelo FROM VEICULOS '
+      ''
+      ''
+      '')
+    Params = <>
+    Left = 76
+    Top = 153
+    object zqVeiculoveic_cod: TIntegerField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'veic_cod'
+      ReadOnly = True
+    end
+    object zqVeiculoVeic_marca_Modelo: TWideStringField
+      DisplayLabel = 'Marca/Modelo'
+      FieldName = 'Veic_marca_Modelo'
+      Size = 50
+    end
+  end
+  object dsVeiculo: TDataSource
+    DataSet = QryVeiculo
+    Left = 140
+    Top = 153
+  end
+  object QryVeiculo: TZQuery
+    Connection = DtmPrincipal.ConexaoDB
+    SQL.Strings = (
+      'SELECT VEIC_COD,VEIC_MARCA_MODELO  FROM VEICULOS')
+    Params = <>
+    Left = 224
+    Top = 160
+    object QryVeiculoVEIC_COD: TIntegerField
+      FieldName = 'VEIC_COD'
+      ReadOnly = True
+    end
+    object QryVeiculoVEIC_MARCA_MODELO: TWideStringField
+      FieldName = 'VEIC_MARCA_MODELO'
+      Size = 50
+    end
+  end
+end

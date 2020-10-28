@@ -1,0 +1,97 @@
+unit uCadUniMedida;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs,uDtmPrincipal, UFrmPadrao, Data.DB,
+
+  Vcl.ComCtrls, Vcl.DBCtrls, Vcl.Buttons, Vcl.ExtCtrls,uEnun,uUniMedida,
+  ZAbstractRODataset, ZAbstractDataset, ZDataset, Vcl.StdCtrls, Vcl.Mask,
+  Vcl.Grids, Vcl.DBGrids;
+
+type
+  TfrmCadUnMedidas = class(TfrmPadrao)
+    zqPrincipalUniMedida_Nome: TWideStringField;
+    zqPrincipalUniMedida_Descricao: TWideStringField;
+    edtCodigo: TLabeledEdit;
+    edtNome: TLabeledEdit;
+    edtDescricao: TLabeledEdit;
+    zqPrincipalUniMedida_Cod: TIntegerField;
+    procedure btnAlterarClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    vUnMedida:TUnidadeMedida;
+    function Apagar:Boolean; override;
+    function Gravar(EstadoDoCadastro:TEstadoCadastro):Boolean; override;
+  end;
+
+var
+  frmCadUnMedidas: TfrmCadUnMedidas;
+
+implementation
+
+{$R *.dfm}
+
+{ TfrmCadUnMedidas }
+
+function TfrmCadUnMedidas.Apagar: Boolean;
+begin
+    if vUnMedida.Selecionar(zqPrincipal.FieldByName('UniMedida_Cod').AsInteger) then begin
+     Result:=vUnMedida.Apagar;
+  end;
+end;
+
+procedure TfrmCadUnMedidas.btnAlterarClick(Sender: TObject);
+begin
+
+    if vUnMedida.Selecionar(zqPrincipal.FieldByName('UniMedida_Cod').AsInteger) then begin
+     edtCodigo.Text            :=IntToStr(vUnMedida.UniMed_cod);
+     edtNome.Text              :=vUnMedida.UniMed_Nome;
+     edtDescricao.Text         :=vUnMedida.UniMed_Descricao;
+
+  end
+  else begin
+    btnCancelar.Click;
+    Abort;
+  end;
+
+  inherited;
+
+end;
+
+procedure TfrmCadUnMedidas.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  inherited;
+  if Assigned(vUnMedida) then
+     FreeAndNil(vUnMedida);
+end;
+
+procedure TfrmCadUnMedidas.FormCreate(Sender: TObject);
+begin
+  inherited;
+  vUnMedida := TUnidadeMedida.Create(DtmPrincipal.ConexaoDB);
+  IndiceAtual :='UniMedida_Cod';
+end;
+
+function TfrmCadUnMedidas.Gravar(EstadoDoCadastro: TEstadoCadastro): Boolean;
+begin
+    if edtCodigo.Text<>EmptyStr then
+     vUnMedida.UniMed_cod:=StrToInt(edtCodigo.Text)
+  else
+     vUnMedida.UniMed_cod:=0;
+
+  vUnMedida.UniMed_Nome           :=edtNome.Text;
+  vUnMedida.UniMed_Descricao      :=edtDescricao.Text;
+
+  if (EstadoDoCadastro=ecInserir) then
+     Result:=vUnMedida.Inserir
+  else if (EstadoDoCadastro=ecAlterar) then
+     Result:=vUnMedida.Atualizar;
+end;
+
+end.

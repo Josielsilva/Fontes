@@ -1,0 +1,180 @@
+unit uGrupo;
+
+interface
+ uses System.Classes,
+     Vcl.Controls,
+     Vcl.ExtCtrls,
+     Vcl.Dialogs,
+     ZAbstractConnection,
+     ZConnection,
+     ZAbstractRODataset,
+     ZAbstractDataset,
+     ZDataset,
+     System.SysUtils;
+type
+  TGrupo = class
+  private
+    F_Grupo_cod: Integer;
+    F_Grupo_Nome: string;
+    F_Grupo_Descricao: string;
+  public
+    constructor Create(aConexao: TZConnection);
+    destructor Destroy; override;
+    function Inserir: Boolean;
+    function Atualizar: Boolean;
+    function Apagar: Boolean;
+    function Selecionar(id: Integer): Boolean;
+  published
+    property Grupo_cod: Integer read F_Grupo_cod write F_Grupo_cod;
+    property Grupo_Nome: string read F_Grupo_Nome write F_Grupo_Nome;
+    property Grupo_Descricao: string read F_Grupo_Descricao write F_Grupo_Descricao;
+  end;
+
+implementation
+
+{ TCategoria }
+
+{$region 'Constructor and Destructor'}
+constructor TGrupo.Create(aConexao:TZConnection);
+begin
+  ConexaoDB:=aConexao;
+end;
+
+destructor TProduto.Destroy;
+begin
+
+  inherited;
+end;
+{$endRegion}
+
+{$region 'CRUD'}
+function TGrupo.Apagar: Boolean;
+var Qry:TZQuery;
+begin
+  if MessageDlg('Apagar o Registro: '+#13+#13+
+                'Código: '+IntToStr(F_GRUPO_COD)+#13+
+                'Descrição: '+F_Grupo_nome,mtConfirmation,[mbYes, mbNo],0)=mrNo then begin
+     Result:=false;
+     abort;
+  end;
+
+  try
+    Result:=true;
+    Qry:=TZQuery.Create(nil);
+    Qry.Connection:=ConexaoDB;
+    Qry.SQL.Clear;
+    Qry.SQL.Add('DELETE FROM GRUPO '+
+                ' WHERE GRUPO_COD=:GRUPO_COD ');
+    Qry.ParamByName('GRUPO_COD').AsInteger :=F_produtoId;
+    Try
+      ConexaoDB.StartTransaction;
+      Qry.ExecSQL;
+      ConexaoDB.Commit;
+    Except
+      ConexaoDB.Rollback;
+      Result:=false;
+    End;
+
+  finally
+    if Assigned(Qry) then
+       FreeAndNil(Qry);
+  end;
+end;
+
+function TGrupo.Atualizar: Boolean;
+var Qry:TZQuery;
+begin
+  try
+    Result:=true;
+    Qry:=TZQuery.Create(nil);
+    Qry.Connection:=ConexaoDB;
+    Qry.SQL.Clear;
+    Qry.SQL.Add('UPDATE GRUPO '+
+                '   SET Grupo_nome          =:nome '+
+                '       ,Grupo_descriccao   =:descricao '+
+                       ' WHERE Grupo_Cod    =:Grupo_Cod ');
+    Qry.ParamByName('Grupo_Cod').AsInteger       :=Self.F_Grupo_Cod;
+    Qry.ParamByName('nome').AsInteger            :=Self.Grupo_nome;
+    Qry.ParamByName('descricao').AsString        :=Self.Grupo_F_descricao;
+
+
+
+    Try
+      ConexaoDB.StartTransaction;
+      Qry.ExecSQL;
+      ConexaoDB.Commit;
+    Except
+      ConexaoDB.Rollback;
+      Result:=false;
+    End;
+
+  finally
+    if Assigned(Qry) then
+       FreeAndNil(Qry);
+  end;
+end;
+
+function TGrupo.Inserir: Boolean;
+var Qry:TZQuery;
+begin
+  try
+    Result:=true;
+    Qry:=TZQuery.Create(nil);
+    Qry.Connection:=ConexaoDB;
+    Qry.SQL.Clear;
+    Qry.SQL.Add('INSERT INTO produtos (prod_nome, '+
+                '                      Prod_Descricao)' +
+                ' VALUES              (:nome, '+
+                '                      :descricao)') ;
+
+    Qry.ParamByName('nome'     ).AsString     :=Self.F_Grupo_nome;
+    Qry.ParamByName('descricao').AsString     :=Self.F_Grupo_descricao;
+
+
+    Try
+      ConexaoDB.StartTransaction;
+      Qry.ExecSQL;
+      ConexaoDB.Commit;
+    Except
+      ConexaoDB.Rollback;
+      Result:=false;
+    End;
+
+  finally
+    if Assigned(Qry) then
+       FreeAndNil(Qry);
+  end;
+end;
+
+function TGrupo.Selecionar(id: Integer): Boolean;
+var Qry:TZQuery;
+begin
+  try
+    Result:=true;
+    Qry:=TZQuery.Create(nil);
+    Qry.Connection:=ConexaoDB;
+    Qry.SQL.Clear;
+    Qry.SQL.Add('SELECT Grupo_Cod,'+
+                '       Grupo_nome, '+
+                '       Grupo_descricao, '+
+                '  FROM produtos '+
+                ' WHERE Grupo_Cod=:Grupo_Cod');
+    Qry.ParamByName('Grupo_Cod').AsInteger:=id;
+    Try
+      Qry.Open;
+
+      Self.F_Grupo_cod     := Qry.FieldByName('Grupo_Cod').AsInteger;
+      Self.F_Grupo_Nome          := Qry.FieldByName('Grupo_nome').AsString;
+      Self.F_Grupo_descricao     := Qry.FieldByName('Grupo_descricao').AsString;
+    Except
+      Result:=false;
+    End;
+
+  finally
+    if Assigned(Qry) then
+       FreeAndNil(Qry);
+  end;
+end;
+{$endregion}
+
+end.

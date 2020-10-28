@@ -1,0 +1,12 @@
+unit uEnun;
+
+interface
+
+type
+TVeiculo = (Carro,Moto,Vans,Caminhao,Onibus,outros);
+
+type
+TEstadoCadastro = (ecInserir,ecAlterar,ecNenhum);
+implementation
+
+end.

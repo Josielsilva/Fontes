@@ -1,0 +1,177 @@
+inherited frmCadUsuario: TfrmCadUsuario
+  Caption = 'Cadastro de Usuario'
+  ClientHeight = 205
+  ClientWidth = 711
+  Position = poScreenCenter
+  ExplicitWidth = 727
+  ExplicitHeight = 244
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited Panel2: TPanel
+    Top = 164
+    Width = 711
+    ExplicitTop = 164
+    ExplicitWidth = 711
+    inherited btnNavegador: TDBNavigator
+      Hints.Strings = ()
+    end
+    inherited btnFechar: TBitBtn
+      Left = 621
+      ExplicitLeft = 621
+    end
+  end
+  inherited Panel3: TPanel
+    Width = 711
+    Height = 164
+    ExplicitWidth = 711
+    ExplicitHeight = 164
+    inherited pgcPadrao: TPageControl
+      Width = 711
+      Height = 164
+      ActivePage = TabSheet2
+      ExplicitWidth = 711
+      ExplicitHeight = 164
+      inherited TabSheet1: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 24
+        ExplicitWidth = 703
+        ExplicitHeight = 136
+        inherited dbgPadrao: TDBGrid
+          Width = 703
+          Height = 79
+        end
+        inherited Panel1: TPanel
+          Width = 703
+          ExplicitWidth = 703
+        end
+      end
+      inherited TabSheet2: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 24
+        ExplicitWidth = 703
+        ExplicitHeight = 136
+        object Label1: TLabel
+          Left = 559
+          Top = 45
+          Width = 20
+          Height = 13
+          Caption = 'Tipo'
+        end
+        object edtCodigo: TLabeledEdit
+          Tag = 1
+          Left = 14
+          Top = 24
+          Width = 121
+          Height = 21
+          EditLabel.Width = 33
+          EditLabel.Height = 13
+          EditLabel.Caption = 'C'#243'digo'
+          TabOrder = 0
+        end
+        object lblLogin: TLabeledEdit
+          Left = 14
+          Top = 64
+          Width = 121
+          Height = 21
+          EditLabel.Width = 25
+          EditLabel.Height = 13
+          EditLabel.Caption = 'Login'
+          MaxLength = 10
+          TabOrder = 1
+        end
+        object edtNome: TLabeledEdit
+          Left = 141
+          Top = 64
+          Width = 268
+          Height = 21
+          EditLabel.Width = 27
+          EditLabel.Height = 13
+          EditLabel.Caption = 'Nome'
+          MaxLength = 10
+          TabOrder = 2
+        end
+        object edtSenha: TLabeledEdit
+          Left = 14
+          Top = 104
+          Width = 121
+          Height = 21
+          EditLabel.Width = 30
+          EditLabel.Height = 13
+          EditLabel.Caption = 'Senha'
+          MaxLength = 10
+          PasswordChar = '*'
+          TabOrder = 3
+        end
+        object lblSenha2: TLabeledEdit
+          Left = 141
+          Top = 104
+          Width = 164
+          Height = 21
+          EditLabel.Width = 125
+          EditLabel.Height = 13
+          EditLabel.Caption = 'Digite a senha novamente'
+          MaxLength = 10
+          PasswordChar = '*'
+          TabOrder = 4
+        end
+        object edtSetor: TLabeledEdit
+          Left = 415
+          Top = 64
+          Width = 138
+          Height = 21
+          EditLabel.Width = 26
+          EditLabel.Height = 13
+          EditLabel.Caption = 'Setor'
+          MaxLength = 10
+          TabOrder = 5
+        end
+        object cbTipo: TComboBox
+          Left = 559
+          Top = 64
+          Width = 120
+          Height = 21
+          ItemIndex = 0
+          TabOrder = 6
+          Text = 'ADM'
+          Items.Strings = (
+            'ADM'
+            'SUPERVISOR'
+            'GERENTE'
+            'USUARIO')
+        end
+      end
+    end
+  end
+  inherited zqPrincipal: TZQuery
+    Connection = DtmPrincipal.ConexaoDB
+    SQL.Strings = (
+      'SELECT'
+      '  ACESSO_ID, '
+      '   LOGIN,'
+      '   NOME,'
+      '   '#39'******'#39' SENHA'
+      '  FROM ACESSO')
+    Left = 536
+    Top = 0
+    object zqPrincipalLOGIN: TIntegerField
+      FieldName = 'LOGIN'
+      ReadOnly = True
+    end
+    object zqPrincipalNOME: TWideStringField
+      FieldName = 'NOME'
+    end
+    object zqPrincipalSENHA: TWideStringField
+      FieldName = 'SENHA'
+      ReadOnly = True
+      Size = 6
+    end
+    object zqPrincipalACESSO_ID: TIntegerField
+      DisplayLabel = 'C'#211'DIGO'
+      FieldName = 'ACESSO_ID'
+    end
+  end
+  inherited dsPrincipal: TDataSource
+    Left = 608
+    Top = 1
+  end
+end

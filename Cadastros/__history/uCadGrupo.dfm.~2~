@@ -1,0 +1,78 @@
+inherited frmGrupo: TfrmGrupo
+  Caption = 'Cadastro de Grupo'
+  ClientHeight = 204
+  ExplicitWidth = 753
+  ExplicitHeight = 243
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited Panel2: TPanel
+    Top = 163
+    inherited btnNavegador: TDBNavigator
+      Hints.Strings = ()
+    end
+  end
+  inherited Panel3: TPanel
+    Height = 163
+    inherited pgcPadrao: TPageControl
+      Height = 163
+      inherited TabSheet1: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 24
+        ExplicitWidth = 729
+        ExplicitHeight = 323
+        inherited dbgPadrao: TDBGrid
+          Height = 78
+        end
+      end
+      inherited TabSheet2: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 24
+        ExplicitWidth = 729
+        ExplicitHeight = 323
+        object edtCodigo: TLabeledEdit
+          Left = 14
+          Top = 24
+          Width = 121
+          Height = 21
+          EditLabel.Width = 33
+          EditLabel.Height = 13
+          EditLabel.Caption = 'C'#243'digo'
+          TabOrder = 0
+        end
+        object edtNome: TLabeledEdit
+          Left = 14
+          Top = 72
+          Width = 224
+          Height = 21
+          EditLabel.Width = 27
+          EditLabel.Height = 13
+          EditLabel.Caption = 'Nome'
+          TabOrder = 1
+        end
+        object edtDescricao: TLabeledEdit
+          Left = 244
+          Top = 72
+          Width = 461
+          Height = 21
+          EditLabel.Width = 46
+          EditLabel.Height = 13
+          EditLabel.Caption = 'Descri'#231#227'o'
+          TabOrder = 2
+        end
+      end
+    end
+  end
+  inherited zqPrincipal: TZQuery
+    Connection = DtmPrincipal.ConexaoDB
+    SQL.Strings = (
+      'SELECT'
+      '         *'
+      '    FROM GRUPO')
+    Left = 536
+    Top = 16
+  end
+  inherited dsPrincipal: TDataSource
+    Left = 592
+    Top = 17
+  end
+end

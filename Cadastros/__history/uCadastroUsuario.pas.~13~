@@ -1,0 +1,137 @@
+unit uCadastroUsuario;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UFrmPadrao, Data.DB,
+  Vcl.ComCtrls, Vcl.Buttons, Vcl.ExtCtrls,
+  Vcl.StdCtrls, Vcl.DBCtrls, ZAbstractRODataset, ZAbstractDataset, ZDataset,
+  Vcl.Mask, Vcl.Grids, Vcl.DBGrids,uAcaoAcesso,uFuncaoLogin,uEnun,uDtmPrincipal;
+
+type
+  TfrmCadUsuario = class(TfrmPadrao)
+    edtCodigo: TLabeledEdit;
+    lblLogin: TLabeledEdit;
+    edtNome: TLabeledEdit;
+    edtSenha: TLabeledEdit;
+    lblSenha2: TLabeledEdit;
+    edtSetor: TLabeledEdit;
+    cbTipo: TComboBox;
+    Label1: TLabel;
+    zqPrincipalNOME: TWideStringField;
+    zqPrincipalACESSO_ID: TIntegerField;
+    zqPrincipalLOGIN: TWideStringField;
+    zqPrincipalSENHA: TWideStringField;
+    procedure btnAlterarClick(Sender: TObject);
+    procedure btnGravarClick(Sender: TObject);
+    procedure btnInserirClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+  private
+    vUsuario:TUsuario;
+    function Gravar(EstadoDoCadastro:TEstadoCadastro):boolean; override;
+    function Apagar:Boolean; override;
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmCadUsuario: TfrmCadUsuario;
+
+implementation
+
+{$R *.dfm}
+
+{ TfrmCadUsuario }
+
+function TfrmCadUsuario.Apagar: Boolean;
+begin
+  if vUsuario.Selecionar(zqPrincipal.FieldByName('Acesso_id').AsInteger) then begin
+     Result:=vUsuario.Apagar;
+  end;
+end;
+
+procedure TfrmCadUsuario.btnAlterarClick(Sender: TObject);
+begin
+   if vUsuario.Selecionar(zqPrincipal.FieldByName('Acesso_id').AsInteger) then begin
+     edtCodigo.Text:=IntToStr(vUsuario.codigo);
+     lblLogin.Text     :=vUsuario.Login;
+     edtSenha.Text     :=vUsuario.senha;
+     edtNome.Text      :=vUsuario.nome;
+//     edtSetor.text     :=vUsuario.Setor;
+//     cbTipo.text       :=Vusuario.tipo;
+  end
+  else begin
+    btnCancelar.Click;
+    Abort;
+  end;
+
+  inherited;
+
+end;
+
+procedure TfrmCadUsuario.btnGravarClick(Sender: TObject);
+begin
+    if vUsuario.UsuarioExiste(lblLogin.Text) then begin
+    MessageDlg('Usuário já cadastrado', mtInformation, [mbok],0);
+    lblLogin.SetFocus;
+    abort;
+  end;
+
+  if edtCodigo.Text<>EmptyStr then
+     vUsuario.codigo:=StrToInt(edtCodigo.Text)
+  else
+     vUsuario.codigo:=0;
+
+  vUsuario.Login :=lblLogin.Text;
+  vUsuario.senha:=edtSenha.Text;
+  vUsuario.Nome := EdtNome.Text;
+//  vUsuario.Tipo := cbTipo.text;
+//  vUsuario.Setor := edtSetor.text;
+
+  inherited;
+
+end;
+
+procedure TfrmCadUsuario.btnInserirClick(Sender: TObject);
+begin
+  inherited;
+  lblLogin.SetFocus;
+end;
+
+procedure TfrmCadUsuario.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  inherited;
+   if Assigned(vUsuario) then
+    FreeAndNil(vUsuario);
+
+    zqPrincipal.Close;
+end;
+
+procedure TfrmCadUsuario.FormCreate(Sender: TObject);
+begin
+  inherited;
+  vUsuario:=TUsuario.Create(DtmPrincipal.ConexaoDB);
+  IndiceAtual:='nome';
+end;
+
+procedure TfrmCadUsuario.FormShow(Sender: TObject);
+begin
+  inherited;
+  zqPrincipal.Open;
+end;
+
+function TfrmCadUsuario.Gravar(EstadoDoCadastro: TEstadoCadastro): boolean;
+begin
+   if EstadoDoCadastro=ecInserir then
+     Result:= vUsuario.Inserir
+  else if EstadoDoCadastro=ecAlterar then
+     Result:= vUsuario.Atualizar;
+
+  TAcaoAcesso.PreencherUsuariosVsAcoes(DtmPrincipal.ConexaoDB);
+end;
+
+end.

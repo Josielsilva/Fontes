@@ -1,0 +1,300 @@
+unit UFrmPadrao;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.Buttons, Data.DB,
+  Vcl.Grids, Vcl.DBGrids, Vcl.ComCtrls,uDtmPrincipal, ZAbstractRODataset,
+  ZAbstractDataset, ZDataset, Vcl.StdCtrls, Vcl.DBCtrls,Enter,uEnun,
+   Vcl.Mask,uUsuarioLogado, RxCurrEdit, RxToolEdit;
+
+type
+  TfrmPadrao = class(TForm)
+    Panel2: TPanel;
+    Panel3: TPanel;
+    zqPrincipal: TZQuery;
+    dsPrincipal: TDataSource;
+    btnInserir: TBitBtn;
+    btnAlterar: TBitBtn;
+    btnCancelar: TBitBtn;
+    btnGravar: TBitBtn;
+    btnApagar: TBitBtn;
+    btnNavegador: TDBNavigator;
+    btnFechar: TBitBtn;
+    pgcPadrao: TPageControl;
+    TabSheet1: TTabSheet;
+    dbgPadrao: TDBGrid;
+    TabSheet2: TTabSheet;
+    Panel1: TPanel;
+    lblPesquisa: TLabel;
+    btnPesquisa: TBitBtn;
+    medtPesquisa: TMaskEdit;
+    procedure SpeedButton5Click(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure btnInserirClick(Sender: TObject);
+    procedure btnCancelarClick(Sender: TObject);
+    procedure btnGravarClick(Sender: TObject);
+    procedure btnApagarClick(Sender: TObject);
+    procedure btnAlterarClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure dbgPadraoTitleClick(Column: TColumn);
+    procedure edtPesquisaChange(Sender: TObject);
+  private
+  estadodoCadastro : TEstadoCadastro;
+
+    procedure ControlarBotoes(btnInserir, btnAlterar, btnCancelar, btnGravar,
+                               btnApagar: TBitBtn; Navegador: TDBNavigator; pgcPrincipal: TPageControl;
+                               Flag: Boolean);
+    procedure ControlarIndiceTab(pgcprincial: TPageControl; Indice: Integer);
+    function RetornarCampoTraduzido(Campo: string): string;
+    procedure ExibirLabelIndice(Campo: string; aLabel: TLabel);
+    function ExisteCampoObrigatorio:Boolean;
+    procedure LimparEdits;
+
+
+    { Private declarations }
+  public
+  IndiceAtual : string;
+  aRetornarIdSelecionado:Variant;
+  aIniciarPesquisaId:Variant;
+  function Excluir : Boolean;virtual;
+  function Apagar:Boolean; virtual;
+  function Gravar(EstadodoCadastro : TEstadoCadastro):Boolean;virtual;
+  procedure BloqueiaCTRL_DEL_DBGrid(var Key: Word; Shift: TShiftState);
+    { Public declarations }
+
+  end;
+
+var
+  frmPadrao: TfrmPadrao;
+
+implementation
+uses uMan,uCadUsuario;
+
+{$R *.dfm}
+
+procedure TfrmPadrao.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  if (zqPrincipal.SQL.Text <> EmptyStr) then
+    begin
+      zqPrincipal.Close;
+    end;
+end;
+
+procedure TfrmPadrao.FormCreate(Sender: TObject);
+begin
+ zqPrincipal.Connection := DtmPrincipal.ConexaoDB;
+ dsPrincipal.DataSet := zqPrincipal;
+ dbgPadrao.DataSource := dsPrincipal;
+ dbgPadrao.Options:= [dgTitles,dgIndicator,dgColumnResize,
+                      dgColLines,dgRowLines,dgTabs,dgRowSelect,
+                      dgAlwaysShowSelection,dgCancelOnExit,
+                      dgTitleClick,dgTitleHotTrack];
+end;
+
+procedure TfrmPadrao.FormShow(Sender: TObject);
+begin
+  if (zqPrincipal.SQL.Text <> EmptyStr) then
+    begin
+      zqPrincipal.IndexFieldNames:= IndiceAtual;
+      ExibirLabelIndice(IndiceAtual,lblPesquisa);
+      zqPrincipal.Open;
+    end;
+   ControlarBotoes(btninserir, btnAlterar, btnCancelar, btnGravar,
+                      btnApagar, btnNavegador, pgcPadrao, true);
+end;
+
+
+
+procedure TfrmPadrao.SpeedButton5Click(Sender: TObject);
+begin
+ Close;
+end;
+
+function TfrmPadrao.Apagar: Boolean;
+begin
+  showmessage('Apagar');
+end;
+
+procedure TfrmPadrao.btnAlterarClick(Sender: TObject);
+begin
+ ControlarBotoes(btninserir,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavegador,
+                 pgcPadrao,false);
+
+  estadodoCadastro := ecAlterar;
+end;
+
+procedure TfrmPadrao.btnApagarClick(Sender: TObject);
+begin
+ if Excluir then
+ begin
+ ControlarBotoes(btninserir,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavegador,
+                 pgcPadrao,true);
+ estadodoCadastro := ecNenhum;
+ end;
+end;
+
+procedure TfrmPadrao.btnCancelarClick(Sender: TObject);
+begin
+ ControlarBotoes(btninserir,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavegador,
+                 pgcPadrao,true);
+ estadodoCadastro := ecNenhum;
+end;
+
+procedure TfrmPadrao.btnGravarClick(Sender: TObject);
+begin
+//   if not TUsuarioLogado.TenhoAcesso(vUsuarioLogado.codigo, self.Name+'_'+TBitBtn(Sender).Name, DtmPrincipal.ConexaoDB) then
+//  begin
+//     MessageDlg('Usuário: '+vUsuarioLogado.nome +', não tem permissão de acesso',mtWarning,[mbOK],0);
+//     Abort;
+//  end;
+
+  if (ExisteCampoObrigatorio) then
+     Abort;
+
+  Try
+    if Gravar(EstadoDoCadastro) then begin
+       ControlarBotoes(btnInserir, btnAlterar, btnCancelar, btnGravar, btnApagar, btnNavegador, pgcPadrao, true);
+       ControlarIndiceTab(pgcPadrao, 0);
+       EstadoDoCadastro:=ecNenhum;
+       LimparEdits;
+       zqPrincipal.Refresh;
+    end
+    else begin
+      MessageDlg('Erro ao Gravar', mtWarning,[mbOK],0);
+    end;
+  Finally
+  End;
+
+end;
+
+
+
+function TfrmPadrao.ExisteCampoObrigatorio:Boolean;
+var i:Integer;
+begin
+  Result:=False;
+  for I := 0 to ComponentCount -1 do begin
+    if (Components[i] is TLabeledEdit) then begin
+       if (TLabeledEdit(Components[i]).Tag = 2) and (TLabeledEdit(Components[i]).Text = EmptyStr) then begin
+          MessageDlg(TLabeledEdit(Components[i]).EditLabel.Caption + ' é um campo obrigatório' ,mtInformation,[mbOK],0);
+          TLabeledEdit(Components[i]).SetFocus;
+          Result:=True;
+          Break;
+       end;
+    end;
+  end;
+end;
+
+
+procedure TfrmPadrao.btnInserirClick(Sender: TObject);
+begin
+ ControlarBotoes(btninserir,btnAlterar,btnCancelar,btnGravar,btnApagar,btnNavegador,
+                 pgcPadrao,false);
+ estadodoCadastro := ecInserir;
+
+end;
+
+procedure TfrmPadrao.ControlarBotoes(btnInserir,btnAlterar,btnCancelar,
+  btnGravar,btnApagar:TBitBtn;Navegador:TDBNavigator;
+  pgcPrincipal :TPageControl;Flag:Boolean);
+begin
+  btnInserir.Enabled := Flag;
+  btnApagar.Enabled := Flag;
+  btnAlterar.Enabled := Flag;
+  Navegador.Enabled := Flag;
+  pgcPrincipal.Pages[0].TabVisible := Flag;
+  btnCancelar.Enabled := not Flag;
+  btnGravar.Enabled   := not Flag;
+end;
+procedure TfrmPadrao.ControlarIndiceTab(pgcprincial : TPageControl;Indice : Integer);
+begin
+  if pgcprincial.Pages[Indice].TabVisible then
+     pgcprincial.TabIndex := Indice;
+end;
+
+
+procedure TfrmPadrao.dbgPadraoTitleClick(Column: TColumn);
+begin
+  IndiceAtual := Column.FieldName;
+  zqPrincipal.IndexFieldNames := IndiceAtual;
+  ExibirLabelIndice(IndiceAtual,lblPesquisa);
+end;
+procedure TfrmPadrao.edtPesquisaChange(Sender: TObject);
+begin
+  zqPrincipal.Locate(IndiceAtual,TMaskEdit(sender).Text,[loPartialKey]);
+end;
+
+function TfrmPadrao.RetornarCampoTraduzido(Campo : string):string;
+var
+  i : Integer;
+begin
+ for I := 0 to zqPrincipal.FieldDefs.Count - 1 do
+ begin
+    if LowerCase(zqPrincipal.Fields[i].FieldName)=LowerCase(Campo) then
+    begin
+      Result := zqPrincipal.Fields[i].DisplayName;
+      Break;
+    end;
+ end;
+end;
+
+{$REGION 'Metodos Virtuais'}
+function TfrmPadrao.Excluir: Boolean;
+begin
+       if (estadodoCadastro = ecInserir) then
+        ShowMessage('Inserir')
+      else if (estadodoCadastro = ecAlterar) then
+        ShowMessage('Alterado');
+     Result := True;
+end;
+
+function TfrmPadrao.Gravar(EstadodoCadastro: TEstadoCadastro): Boolean;
+begin
+    if (EstadoDoCadastro=ecInserir) then
+       showmessage('Inserir')
+   else if (EstadoDoCadastro=ecAlterar) then
+       showmessage('Alterado')
+   else
+      showmessage('Nada aconteceu');
+end;
+procedure TfrmPadrao.LimparEdits;
+var i: Integer;
+begin
+   for i := 0 to ComponentCount -1 do begin
+    if (Components[i] is TLabeledEdit) then
+      TLabeledEdit(Components[i]).Text:=EmptyStr
+    else if (Components[i] is TEdit) then
+      TEdit(Components[i]).Text:=''
+    else if (Components[i] is TDBLookupComboBox) then
+      TDBLookupComboBox(Components[i]).KeyValue:=Null
+    else if (Components[i] is TMemo) then
+      TMemo(Components[i]).Text:=''
+    else if (Components[i] is TCurrencyEdit) then
+      TCurrencyEdit(Components[i]).Text:=''
+    else if (Components[i] is TDateEdit) then
+      TDateEdit(Components[i]).Date:=0
+    else if (Components[i] is TMaskEdit) then
+      TMaskEdit(Components[i]).Text:='';
+
+  end;
+end;
+
+{$ENDREGION}
+
+procedure TfrmPadrao.ExibirLabelIndice(Campo: string; aLabel: TLabel);
+begin
+  aLabel.Caption := RetornarCampoTraduzido(Campo);
+end;
+
+procedure TfrmPadrao.BloqueiaCTRL_DEL_DBGrid(var Key: Word; Shift: TShiftState);
+begin
+   //Bloqueia o CTRL + DEL
+   if (Shift = [ssCtrl]) and (Key = 46) then
+      Key := 0;
+end;
+
+
+end.
